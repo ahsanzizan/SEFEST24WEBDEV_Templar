@@ -4,7 +4,7 @@ const menus: string[] = ['Home', 'Dashboard', 'Gallery'];
 
 export default function Navbar() {
   return (
-    <nav className="fixed flex h-20 w-screen items-center justify-between bg-[#EA9715] px-20 text-[#FFFBF2]">
+    <nav className="fixed flex h-20 w-screen items-center justify-between bg-[#EA9715] px-20 text-[#FFFBF2] z-50">
       <div className="flex items-center gap-x-2">
         <Image
           src="/dummy.jpeg"

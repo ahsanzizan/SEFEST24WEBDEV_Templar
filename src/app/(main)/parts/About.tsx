@@ -17,7 +17,7 @@ export default function About() {
         {services.map((service, index) => (
           <div
             key={index}
-            className="group relative h-[40vh] w-3/12 overflow-hidden rounded-lg"
+            className="group relative h-[60vh] w-3/12 overflow-hidden rounded-lg"
           >
             <Image
               src="/dummy.jpeg"
@@ -26,7 +26,7 @@ export default function About() {
               height={500}
               className="absolute h-full w-full object-cover brightness-50 transition-transform duration-500 ease-in-out group-hover:scale-110"
             />
-            <div className="absolute flex h-full flex-col gap-y-2 p-2">
+            <div className="absolute grid h-full content-between gap-y-2 p-2">
               <h2 className="text-3xl font-semibold text-[#FFFBF2]">
                 {service}
               </h2>
@@ -35,9 +35,11 @@ export default function About() {
                 banks and shelters.Connect food donors (restaurants, grocery
                 stores, etc) with food banks and shelters.
               </p>
-              <p className="bg-accent absolute bottom-0 right-0 m-2 w-fit rounded-lg px-8 py-4 text-[#FFFBF2]">
-                Donate Now
-              </p>
+              <div className="flex justify-end">
+                <p className="w-fit rounded-lg bg-accent px-8 py-4 text-[#FFFBF2]">
+                  Donate Now
+                </p>
+              </div>
             </div>
           </div>
         ))}
