@@ -1,9 +1,11 @@
+import About from './parts/About';
 import Home from './parts/Home';
 
 export default function page() {
   return (
-    <main className="bg-[#F2F2F2]">
+    <main className="overflow-hidden bg-[#FFFBF2]">
       <Home />
+      <About />
     </main>
   );
 }
