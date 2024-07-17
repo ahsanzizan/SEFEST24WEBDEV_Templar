@@ -1,10 +1,10 @@
 import Image from 'next/image';
 
-const menus: string[] = ['Home', 'Dashboard', 'Gallery'];
+const menus: string[] = ['Home', 'About Us'];
 
 export default function Navbar() {
   return (
-    <nav className="fixed flex h-20 w-screen items-center justify-between bg-[#EA9715] px-20 text-[#FFFBF2] z-50">
+    <nav className="fixed z-50 flex h-20 w-screen items-center justify-between bg-[#EA9715] px-20 text-[#FFFBF2]">
       <div className="flex items-center gap-x-2">
         <Image
           src="/dummy.jpeg"
@@ -28,6 +28,7 @@ export default function Navbar() {
       <div className="flex justify-between gap-x-8">
         <p>Login</p>
         <p>Register</p>
+        <p>Dashboard</p>
       </div>
     </nav>
   );
