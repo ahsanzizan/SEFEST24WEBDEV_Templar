@@ -13,7 +13,7 @@ export default function Event() {
         <h2 className="text-center text-5xl font-bold text-[#475443]">
           Events
         </h2>
-        <p className="w-fit rounded-lg bg-accent px-8 py-4 text-[#FFFBF2]">
+        <p className="w-fit rounded-lg bg-secondary px-8 py-4 text-[#FFFBF2]">
           See all events
         </p>
       </div>
