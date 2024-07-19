@@ -5,7 +5,7 @@ import Organization from './parts/Organization';
 
 export default function page() {
   return (
-    <main className="flex flex-col gap-y-11 overflow-hidden bg-primary">
+    <main className="flex flex-col gap-y-10 overflow-hidden bg-primary">
       <Home />
       <About />
       <Organization />
