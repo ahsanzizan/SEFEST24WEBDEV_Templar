@@ -1,12 +1,12 @@
 'use server';
 
-import { getAllUser } from '@/utils/query/user';
+import { findAllUser } from '@/utils/database/user.query';
 import UserTable from './components/UserTable';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import Link from 'next/link';
 
 export default async function page() {
-  const users = await getAllUser();
+  const users = await findAllUser();
   return (
     <main className="flex min-h-screen w-screen flex-col gap-y-8 p-4 pl-[316px]">
       <Breadcrumbs />

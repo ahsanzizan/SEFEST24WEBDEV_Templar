@@ -1,17 +1,17 @@
-import { Role } from "@prisma/client";
-import { type DefaultSession, AuthOptions } from "next-auth";
-import { getServerSession } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
+import { Role } from '@prisma/client';
+import { type DefaultSession, AuthOptions } from 'next-auth';
+import { getServerSession } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 
-import { findUser } from "@/utils/database/user.query";
-import { compareHash } from "@/utils/encryption";
+import { createUser, findUser } from '@/utils/database/user.query';
+import { compareHash } from '@/utils/encryption';
 
-import prisma from "./prisma";
+import prisma from './prisma';
 
-import type { DefaultJWT } from "next-auth/jwt";
+import type { DefaultJWT } from 'next-auth/jwt';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   /**
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */
@@ -21,11 +21,11 @@ declare module "next-auth" {
       role: Role;
       email: string;
       someExoticUserProperty?: string;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
 }
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
   interface JWT extends DefaultJWT {
     id: string;
@@ -36,38 +36,38 @@ declare module "next-auth/jwt" {
 
 export const authOptions: AuthOptions = {
   theme: {
-    colorScheme: "light",
-    brandColor: "#E04E4E",
-    logo: "/horizontal.svg",
+    colorScheme: 'light',
+    brandColor: '#EA9715',
+    logo: '/dummy.jpeg'
   },
   session: {
-    strategy: "jwt",
+    strategy: 'jwt'
   },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
         email: {
-          label: "Email",
-          type: "email",
-          placeholder: "user@student.smktelkom-mlg.sch.id",
+          label: 'Email',
+          type: 'email',
+          placeholder: 'user@student.smktelkom-mlg.sch.id'
         },
         password: {
-          label: "Password",
-          type: "password",
-          placeholder: "********",
-        },
+          label: 'Password',
+          type: 'password',
+          placeholder: '********'
+        }
       },
       async authorize(credentials) {
         try {
           const findUser = await prisma.user.findUnique({
-            where: { email: credentials?.email },
+            where: { email: credentials?.email }
           });
           if (!findUser) return null;
 
           const comparePassword = compareHash(
             credentials?.password as string,
-            findUser?.password as string,
+            findUser?.password as string
           );
 
           if (!comparePassword) return null;
@@ -75,43 +75,40 @@ export const authOptions: AuthOptions = {
           const user = {
             id: findUser.id,
             role: findUser.role,
-            email: findUser.email,
+            email: findUser.email
           };
           return user;
         } catch (e) {
           console.error(e);
           return null;
         }
-      },
+      }
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: false,
-    }),
+      allowDangerousEmailAccountLinking: false
+    })
   ],
   callbacks: {
     async redirect({ url, baseUrl }) {
-      const redirectUrl = url.startsWith("/")
+      const redirectUrl = url.startsWith('/')
         ? new URL(url, baseUrl).toString()
         : url;
       return redirectUrl;
     },
     async signIn({ user, profile, account }) {
       if (
-        account?.provider == "google" &&
-        !profile?.email?.endsWith("smktelkom-mlg.sch.id")
+        account?.provider == 'google' &&
+        !profile?.email?.endsWith('smktelkom-mlg.sch.id')
       )
         return false;
       if (user.email) {
         const userdb = await findUser({ email: user.email });
         if (!userdb) {
-
-          // If user not found, create new user
-
+          await createUser({ email: user.email });
         }
       }
-
       return true;
     },
     async jwt({ token, user }) {
@@ -131,9 +128,9 @@ export const authOptions: AuthOptions = {
         session.user.id = userdb?.id as string;
       }
       return session;
-    },
+    }
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET
 };
 
 export const nextGetServerSession = () => getServerSession(authOptions);

@@ -5,7 +5,7 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 import { toast } from 'sonner';
 
 import { useEffect, useState } from 'react';
-import { deleteUser } from '@/utils/query/user';
+import { deleteUser } from '@/utils/database/user.query';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 

@@ -1,7 +1,7 @@
 'use server';
 
 import { Role } from '@prisma/client';
-import { createUser, updateUser } from '../query/user';
+import { createUser, updateUser } from '../database/user.query';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 

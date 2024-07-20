@@ -1,6 +1,6 @@
 'use server';
 
-import { getUser } from '@/utils/query/user';
+import { findUser } from '@/utils/database/user.query';
 import React from 'react';
 import UserForm from './components/UserForm';
 import { notFound } from 'next/navigation';
@@ -16,7 +16,7 @@ export default async function page({ params }: { params: { id: string } }) {
     );
   }
 
-  const user = await getUser({ id: params.id });
+  const user = await findUser({ id: params.id });
 
   if (!user) {
     return notFound();

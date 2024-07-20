@@ -1,6 +1,6 @@
-import { hashSync, compareSync } from "bcrypt";
+import { hashSync, compareSync } from 'bcrypt';
 
-const BCRYPT_ROUNDS = 10;
+const BCRYPT_ROUNDS = 12;
 
 export const encrypt = (plainText: string): string => {
   const hashed = hashSync(plainText, BCRYPT_ROUNDS);

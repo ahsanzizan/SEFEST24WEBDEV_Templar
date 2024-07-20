@@ -60,12 +60,13 @@ export default function UserForm({ user }: { user?: User }) {
         id="role"
         required={!user}
         className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
-        defaultValue={user && user.role}
+        defaultValue={user ? user.role : 'GUEST'}
       >
         <option value="ADMIN">Admin</option>
         <option value="DONOR">Donor</option>
         <option value="RECIPIENT">Recipient</option>
         <option value="VOLUNTEER">Volunteer</option>
+        <option value="GUEST">Guest</option>
       </select>
       <button
         type="submit"

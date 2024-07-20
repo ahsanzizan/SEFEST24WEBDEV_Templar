@@ -1,7 +1,7 @@
-import About from './parts/About';
-import Event from './parts/Event';
-import Home from './parts/Home';
-import Organization from './parts/Organization';
+import About from './components/parts/About';
+import Event from './components/parts/Event';
+import Home from './components/parts/Home';
+import Organization from './components/parts/Organization';
 
 export default function page() {
   return (

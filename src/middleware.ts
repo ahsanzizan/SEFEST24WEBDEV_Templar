@@ -1,34 +1,29 @@
-import { NextResponse } from "next/server";
-import { withAuth } from "next-auth/middleware";
+import { withAuth } from 'next-auth/middleware';
+import { NextResponse } from 'next/server';
 
 export default withAuth(function middleware(req) {
-  const { token } = req.nextauth;
-  const { pathname } = req.nextUrl;
+  const { nextUrl, nextauth } = req;
 
-  if (!token) return NextResponse.redirect("/api/auth/signin");
+  if (!nextauth) {
+    return NextResponse.redirect(new URL('/api/auth/signin', nextUrl));
+  }
 
-//   if (token.role === "Guest") {
-//     return NextResponse.rewrite(new URL("/unauthorized", req.url), {
-//       status: 403,
-//     });
-//   }
+  if (nextUrl.pathname.startsWith('/user')) {
+    return NextResponse.next();
+  }
 
-  const route = protectedRoutes.find((route) => route.regex.test(pathname));
-  const isAdmin = !token.role.includes("Admin");
-
-  const hasAccess =
-    route &&
-    (route.roles == "All" ||
-      route.roles.includes(token.role) ||
-      (isAdmin && route.roles.includes("Admin")));
-
-  if (route && !hasAccess) {
-    return NextResponse.rewrite(new URL("/unauthorized", req.url), {
-      status: 403,
+  if (!nextUrl.pathname.startsWith('/' + nextauth.token?.role.toLowerCase())) {
+    return NextResponse.rewrite(new URL('/unauthorized', req.url), {
+      status: 403
     });
   }
 });
 
 export const config = {
-  matcher: ["/admin/:path*", "/admin"],
+  matcher: [
+    '/admin/:path*',
+    '/donor/:path*',
+    '/recipient/:path*',
+    '/volunteer/:path*'
+  ]
 };
