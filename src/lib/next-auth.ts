@@ -97,12 +97,7 @@ export const authOptions: AuthOptions = {
         : url;
       return redirectUrl;
     },
-    async signIn({ user, profile, account }) {
-      if (
-        account?.provider == 'google' &&
-        !profile?.email?.endsWith('smktelkom-mlg.sch.id')
-      )
-        return false;
+    async signIn({ user }) {
       if (user.email) {
         const userdb = await findUser({ email: user.email });
         if (!userdb) {
