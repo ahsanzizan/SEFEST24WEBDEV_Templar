@@ -60,6 +60,7 @@ enum Role {
   DONOR
   RECIPIENT
   VOLUNTEER
+  GUEST
 }
 
 enum PickupStatus {
