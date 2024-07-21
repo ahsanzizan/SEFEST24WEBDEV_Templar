@@ -3,7 +3,6 @@
 import { PickupStatus } from '@prisma/client';
 import { createDonation, updateDonation } from '../database/donation.query';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 export const handleCreateDonation = async (formData: FormData) => {
   const name = formData.get('name') as string;
@@ -15,7 +14,7 @@ export const handleCreateDonation = async (formData: FormData) => {
   await createDonation({
     name,
     donor: { connect: { id: donor_id } },
-    recipient: { connect: { id: recipient_id } },
+    recipient: recipient_id ? { connect: { id: recipient_id } } : undefined,
     pickup_coordinate,
     pickup_status
   });

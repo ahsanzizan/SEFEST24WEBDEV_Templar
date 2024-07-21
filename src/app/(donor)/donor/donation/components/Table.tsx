@@ -13,7 +13,10 @@ export default function Table({
   donations
 }: {
   donations: Prisma.DonationGetPayload<{
-    include: { donor: true; recipient: true };
+    include: {
+      donor: { select: { email: true } };
+      recipient: { select: { email: true } };
+    };
   }>[];
 }) {
   const [loading, setLoading] = useState(true);
@@ -21,7 +24,10 @@ export default function Table({
 
   const columns: TableColumn<
     Prisma.DonationGetPayload<{
-      include: { donor: true; recipient: true };
+      include: {
+        donor: { select: { email: true } };
+        recipient: { select: { email: true } };
+      };
     }>
   >[] = [
     {
@@ -59,7 +65,7 @@ export default function Table({
       cell: (row) => (
         <div className="flex items-center justify-between gap-2 text-nowrap">
           <Link
-            href={'/admin/donation/' + row.id}
+            href={'/donor/donation/' + row.id}
             className="h-fit w-fit rounded-lg bg-yellow-500 px-4 py-2 text-[#FFFBF2]"
           >
             Update
