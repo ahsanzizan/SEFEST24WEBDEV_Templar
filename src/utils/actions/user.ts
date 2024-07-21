@@ -3,7 +3,6 @@
 import { Role } from '@prisma/client';
 import { createUser, updateUser } from '../database/user.query';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 export const handleCreateUser = async (formData: FormData) => {
   const email = formData.get('email') as string;

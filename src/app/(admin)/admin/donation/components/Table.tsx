@@ -60,9 +60,9 @@ export default function Table({
         <div className="flex items-center justify-between gap-2 text-nowrap">
           <Link
             href={'/admin/donation/' + row.id}
-            className="h-fit w-fit rounded-lg bg-yellow-500 px-4 py-2 text-[#FFFBF2]"
+            className="h-fit w-fit rounded-lg bg-blue-500 px-4 py-2 text-[#FFFBF2]"
           >
-            Update
+            Details
           </Link>
           <button
             onClick={() => {

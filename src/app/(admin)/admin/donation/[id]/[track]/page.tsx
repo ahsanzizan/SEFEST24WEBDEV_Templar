@@ -1,33 +1,35 @@
 'use server';
 
 import React from 'react';
-import Form from './components/Form';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/components/Breadcrumbs';
-import { findDonation } from '@/utils/database/donation.query';
-import Tracking from './components/parts/Tracking';
+import { findTracking } from '@/utils/database/tracking.query';
+import Form from './components/Form';
 
-export default async function page({ params }: { params: { id: string } }) {
-  if (params.id === 'new') {
+export default async function page({
+  params
+}: {
+  params: { id: string; track: string };
+}) {
+  if (params.track === 'new') {
     return (
       <main className="flex min-h-screen w-screen flex-col gap-y-8 p-4 pl-[316px]">
         <Breadcrumbs />
-        <Form />
+        <Form donation_id={params.id} />
       </main>
     );
   }
 
-  const donation = await findDonation({ id: params.id });
+  const tracking = await findTracking({ id: params.track });
 
-  if (!donation) {
+  if (!tracking) {
     return notFound();
   }
 
   return (
     <main className="flex min-h-screen w-screen flex-col gap-y-12 p-4 pl-[316px]">
       <Breadcrumbs />
-      <Form donation={donation} />
-      <Tracking donation_id={donation.id} />
+      <Form donation_id={params.id} tracking={tracking} />
     </main>
   );
 }

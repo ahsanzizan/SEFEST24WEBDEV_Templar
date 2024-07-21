@@ -5,6 +5,7 @@ import Form from './components/Form';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { findDonation } from '@/utils/database/donation.query';
+import TrackingData from './components/parts/Tracking';
 
 export default async function page({ params }: { params: { id: string } }) {
   if (params.id === 'new') {
@@ -26,6 +27,7 @@ export default async function page({ params }: { params: { id: string } }) {
     <main className="flex min-h-screen w-screen flex-col gap-y-8 p-4 pl-[316px]">
       <Breadcrumbs />
       <Form donation={donation} />
+      <TrackingData donation_id={params.id} />
     </main>
   );
 }
