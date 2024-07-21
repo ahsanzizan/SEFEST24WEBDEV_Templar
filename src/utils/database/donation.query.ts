@@ -4,7 +4,9 @@ import prisma from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 
 export const findAllDonation = async () => {
-  return await prisma.donation.findMany();
+  return await prisma.donation.findMany({
+    include: { donor: true, recipient: true }
+  });
 };
 
 export const findFilterDonation = async (where: Prisma.DonationWhereInput) => {
@@ -12,7 +14,10 @@ export const findFilterDonation = async (where: Prisma.DonationWhereInput) => {
 };
 
 export const findDonation = async (where: Prisma.DonationWhereUniqueInput) => {
-  return await prisma.donation.findUnique({ where });
+  return await prisma.donation.findUnique({
+    where,
+    include: { donor: true, recipient: true }
+  });
 };
 
 export const createDonation = async (data: Prisma.DonationCreateInput) => {

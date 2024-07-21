@@ -16,23 +16,23 @@ export default function Table({ users }: { users: User[] }) {
   const columns: TableColumn<User>[] = [
     {
       name: 'Id',
-      selector: (row: User) => row.id,
+      selector: (row) => row.id,
       sortable: true
     },
     {
       name: 'Email',
-      selector: (row: User) => row.email,
+      selector: (row) => row.email,
       sortable: true
     },
     {
       name: 'Role',
-      selector: (row: User) => row.role,
+      selector: (row) => row.role,
       sortable: true
     },
     {
       name: 'Action',
-      cell: (row: User) => (
-        <div className="flex items-center justify-between gap-2">
+      cell: (row) => (
+        <div className="flex items-center justify-between gap-2 text-nowrap">
           <button
             onClick={() => {
               handleDeleteUser(row.id);

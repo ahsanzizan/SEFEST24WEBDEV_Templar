@@ -4,6 +4,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import Link from 'next/link';
 import Table from './components/Table';
 import { findAllDonation } from '@/utils/database/donation.query';
+import { Prisma } from '@prisma/client';
 
 export default async function page() {
   const donations = await findAllDonation();

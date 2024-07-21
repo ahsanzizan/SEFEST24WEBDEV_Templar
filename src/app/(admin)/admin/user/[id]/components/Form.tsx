@@ -4,8 +4,11 @@ import { User } from '@prisma/client';
 import { toast } from 'sonner';
 
 import { handleCreateUser, handleUpdateUser } from '@/utils/actions/user';
+import { useRouter } from 'next/navigation';
 
 export default function Form({ user }: { user?: User }) {
+  const router = useRouter();
+
   return (
     <form
       action={async (formData) => {
@@ -17,6 +20,7 @@ export default function Form({ user }: { user?: User }) {
               id: toastId,
               duration: 1500
             });
+            router.push('/admin/user');
           } catch (error) {
             toast.error('Error updating user', { id: toastId });
           }
@@ -27,6 +31,7 @@ export default function Form({ user }: { user?: User }) {
               id: toastId,
               duration: 1500
             });
+            router.push('/admin/user');
           } catch (error) {
             toast.error('Error creating user', { id: toastId });
           }

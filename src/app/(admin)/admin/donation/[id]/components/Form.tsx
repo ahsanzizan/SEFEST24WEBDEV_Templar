@@ -2,16 +2,33 @@
 
 import dynamic from 'next/dynamic';
 import { useCallback } from 'react';
-import { Donation, User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { toast } from 'sonner';
 
-import { handleCreateUser, handleUpdateUser } from '@/utils/actions/user';
-import { findAllDonor, findDonor } from '@/utils/database/user.query';
+import {
+  findAllDonor,
+  findAllRecipient,
+  findDonor,
+  findRecipient
+} from '@/utils/database/user.query';
+import {
+  handleCreateDonation,
+  handleUpdateDonation
+} from '@/utils/actions/donation';
+import { useRouter } from 'next/navigation';
 
 const AsyncSelect = dynamic(() => import('react-select/async'), { ssr: false });
 
-export default function Form({ donation }: { donation?: Donation }) {
-  const promiseOptions = (inputValue: string) =>
+export default function Form({
+  donation
+}: {
+  donation?: Prisma.DonationGetPayload<{
+    include: { donor: true; recipient: true };
+  }>;
+}) {
+  const router = useRouter();
+
+  const donorPromiseOptions = (inputValue: string) =>
     new Promise<Array<{ label: string; value: string }>>(async (resolve) => {
       if (!inputValue) {
         await findAllDonor().then((response) => {
@@ -36,6 +53,31 @@ export default function Form({ donation }: { donation?: Donation }) {
       }
     });
 
+  const recipientPromiseOptions = (inputValue: string) =>
+    new Promise<Array<{ label: string; value: string }>>(async (resolve) => {
+      if (!inputValue) {
+        await findAllRecipient().then((response) => {
+          let data = response.map((item: User) => {
+            return {
+              label: item.email,
+              value: item.id
+            };
+          });
+          resolve(data);
+        });
+      } else {
+        await findRecipient(inputValue).then((response) => {
+          let data = response.map((item: User) => {
+            return {
+              label: item.email,
+              value: item.id
+            };
+          });
+          resolve(data);
+        });
+      }
+    });
+
   function debounce(fn: any, delay = 250) {
     let timeout: any;
 
@@ -47,9 +89,18 @@ export default function Form({ donation }: { donation?: Donation }) {
     };
   }
 
-  const loadOptionsDebounced = useCallback(
+  const donorLoadOptionsDebounced = useCallback(
     debounce((inputValue: string, callback: (options: any) => void) => {
-      promiseOptions(inputValue).then((options: any) => callback(options));
+      donorPromiseOptions(inputValue).then((options: any) => callback(options));
+    }, 500),
+    []
+  );
+
+  const recipientLoadOptionsDebounced = useCallback(
+    debounce((inputValue: string, callback: (options: any) => void) => {
+      recipientPromiseOptions(inputValue).then((options: any) =>
+        callback(options)
+      );
     }, 500),
     []
   );
@@ -60,23 +111,25 @@ export default function Form({ donation }: { donation?: Donation }) {
         const toastId = toast.loading('Loading');
         if (donation) {
           try {
-            await handleUpdateUser(donation.id, formData);
-            toast.success('Success updating user', {
+            await handleUpdateDonation(donation.id, formData);
+            toast.success('Success updating donation', {
               id: toastId,
               duration: 1500
             });
+            router.push('/admin/donation');
           } catch (error) {
-            toast.error('Error updating user', { id: toastId });
+            toast.error('Error updating donation', { id: toastId });
           }
         } else {
           try {
-            await handleCreateUser(formData);
-            toast.success('Success creating user', {
+            await handleCreateDonation(formData);
+            toast.success('Success creating donation', {
               id: toastId,
               duration: 1500
             });
+            router.push('/admin/donation');
           } catch (error) {
-            toast.error('Error creating user', { id: toastId });
+            toast.error('Error creating donation', { id: toastId });
           }
         }
       }}
@@ -95,19 +148,13 @@ export default function Form({ donation }: { donation?: Donation }) {
       </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="donor_id">Donor Id</label>
-        <input
-          type="text"
-          name="donor_id"
-          id="donor_id"
-          required
-          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
-          defaultValue={donation && donation.donor_id}
-        />
-      </div>
-      <div className="flex flex-col gap-2">
-        <label htmlFor="donor_id">Donor Id</label>
         <AsyncSelect
-          defaultValue={donation && donation.donor_id}
+          defaultValue={
+            donation && {
+              label: donation?.donor.email,
+              value: donation?.donor_id
+            }
+          }
           cacheOptions
           styles={{
             control: (baseStyles, state) => ({
@@ -118,52 +165,64 @@ export default function Form({ donation }: { donation?: Donation }) {
               borderColor: state.isFocused ? '#001E16' : '#475443'
             })
           }}
-          placeholder="Select user"
+          placeholder="Select donator"
           id="donor_id"
           name="donor_id"
           defaultOptions
-          loadOptions={loadOptionsDebounced}
+          required
+          loadOptions={donorLoadOptionsDebounced}
           noOptionsMessage={() => 'Donators not found'}
         />
       </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="recipient_id">Recipient Id</label>
-        <input
-          type="text"
-          name="recipient_id"
-          id="recipient_id"
+        <AsyncSelect
+          defaultValue={
+            donation && {
+              label: donation?.recipient.email,
+              value: donation?.recipient_id
+            }
+          }
+          cacheOptions
           required
-          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
-          defaultValue={donation && donation.recipient_id}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              borderRadius: 8,
+              border: '2px solid #475443',
+              padding: 4,
+              borderColor: state.isFocused ? '#001E16' : '#475443'
+            })
+          }}
+          placeholder="Select donator"
+          id="recipient_id"
+          name="recipient_id"
+          defaultOptions
+          loadOptions={recipientLoadOptionsDebounced}
+          noOptionsMessage={() => 'Donators not found'}
         />
       </div>
       <div className="flex flex-col gap-2">
-        <label htmlFor="recipient_id">Recipient Id</label>
+        <label htmlFor="pickup_coordinate">Pickup Coordinate Id</label>
         <input
           type="text"
-          name="recipient_id"
-          id="recipient_id"
-          required
+          name="pickup_coordinate"
+          id="pickup_coordinate"
           className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
           defaultValue={donation && donation.pickup_coordinate!}
         />
       </div>
       <div className="flex flex-col gap-2">
-        <label htmlFor="role">Role</label>
+        <label htmlFor="pickup_status">Pickup Status</label>
         <select
-          name="role"
-          id="role"
-          required={!donation}
+          name="pickup_status"
+          id="pickup_status"
           className="rounded-lg border-2 border-secondary p-3 focus:border-dark focus:outline-none"
-          defaultValue={
-            donation && donation.pickup_status
-              ? donation.pickup_status
-              : 'NOTSET'
-          }
+          aria-placeholder="Select status"
+          defaultValue={donation && donation.pickup_status!}
         >
-          <option value="NOTSET">Not set</option>
-          <option value="CONFIRMED">Confirmed</option>
           <option value="REJECTED">Rejected</option>
+          <option value="CONFIRMED">Confirmed</option>
         </select>
       </div>
       <button

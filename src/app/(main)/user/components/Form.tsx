@@ -18,8 +18,6 @@ export default function Form({ user }: { user: User }) {
 
         const role = formData.get('role') as Role;
 
-        console.log(role);
-
         if (role === 'ADMIN' || role === 'GUEST') {
           return toast.error('Error, invalid role', { id: toastId });
         }

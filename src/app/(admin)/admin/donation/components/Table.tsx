@@ -1,6 +1,6 @@
 'use client';
 
-import { Donation, User } from '@prisma/client';
+import { Donation, Prisma, User } from '@prisma/client';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { toast } from 'sonner';
 
@@ -8,56 +8,67 @@ import { useEffect, useState } from 'react';
 import { deleteUser } from '@/utils/database/user.query';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { deleteDonation } from '@/utils/database/donation.query';
 
-export default function Table({ donations }: { donations: Donation[] }) {
+export default function Table({
+  donations
+}: {
+  donations: Prisma.DonationGetPayload<{
+    include: { donor: true; recipient: true };
+  }>[];
+}) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const columns: TableColumn<Donation>[] = [
+  const columns: TableColumn<
+    Prisma.DonationGetPayload<{
+      include: { donor: true; recipient: true };
+    }>
+  >[] = [
     {
       name: 'Id',
-      selector: (row: Donation) => row.id,
+      selector: (row) => row.id,
       sortable: true
     },
     {
-      name: 'Email',
-      selector: (row: Donation) => row.name,
+      name: 'Name',
+      selector: (row) => row.name,
       sortable: true
     },
     {
-      name: 'Email',
-      selector: (row: Donation) => row.donor_id,
+      name: 'Donator',
+      selector: (row) => row.donor.email,
       sortable: true
     },
     {
-      name: 'Email',
-      selector: (row: Donation) => row.recipient_id,
+      name: 'Recipient',
+      selector: (row) => row.recipient.email,
       sortable: true
     },
     {
-      name: 'Role',
-      selector: (row: Donation) => row.pickup_coordinate!,
+      name: 'Pickup Coordinate',
+      selector: (row) => row.pickup_coordinate!,
       sortable: true
     },
     {
-      name: 'Role',
-      selector: (row: Donation) => row.pickup_status!,
+      name: 'Pickup Status',
+      selector: (row) => row.pickup_status!,
       sortable: true
     },
     {
       name: 'Action',
-      cell: (row: Donation) => (
-        <div className="flex items-center justify-between gap-2">
+      cell: (row) => (
+        <div className="flex items-center justify-between gap-2 text-nowrap">
           <button
             onClick={() => {
-              handleDeleteUser(row.id);
+              handleDeleteDonation(row.id);
             }}
             className="h-fit w-fit rounded-lg bg-red-500 px-4 py-2 text-[#FFFBF2]"
           >
             Delete
           </button>
           <Link
-            href={'/admin/user/' + row.id}
+            href={'/admin/donation/' + row.id}
             className="h-fit w-fit rounded-lg bg-yellow-500 px-4 py-2 text-[#FFFBF2]"
           >
             Update
@@ -67,14 +78,17 @@ export default function Table({ donations }: { donations: Donation[] }) {
     }
   ];
 
-  const handleDeleteUser = async (id: string) => {
+  const handleDeleteDonation = async (id: string) => {
     const toastId = toast.loading('Loading');
     try {
-      await deleteUser({ id });
-      toast.success('Success deleting user', { id: toastId, duration: 1500 });
+      await deleteDonation({ id });
+      toast.success('Success deleting donation', {
+        id: toastId,
+        duration: 1500
+      });
       router.refresh();
     } catch (error) {
-      toast.error('Error deleting user', { id: toastId });
+      toast.error('Error deleting donation', { id: toastId });
     }
   };
 
