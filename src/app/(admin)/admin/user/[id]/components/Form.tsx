@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 
 import { handleCreateUser, handleUpdateUser } from '@/utils/actions/user';
 
-export default function UserForm({ user }: { user?: User }) {
+export default function Form({ user }: { user?: User }) {
   return (
     <form
       action={async (formData) => {

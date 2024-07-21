@@ -9,7 +9,7 @@ import { deleteUser } from '@/utils/database/user.query';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function UserTable({ users }: { users: User[] }) {
+export default function Table({ users }: { users: User[] }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 

@@ -2,7 +2,7 @@
 
 import { findUser } from '@/utils/database/user.query';
 import React from 'react';
-import UserForm from './components/UserForm';
+import Form from './components/Form';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
@@ -11,7 +11,7 @@ export default async function page({ params }: { params: { id: string } }) {
     return (
       <main className="flex min-h-screen w-screen flex-col gap-y-8 p-4 pl-[316px]">
         <Breadcrumbs />
-        <UserForm />
+        <Form />
       </main>
     );
   }
@@ -25,7 +25,7 @@ export default async function page({ params }: { params: { id: string } }) {
   return (
     <main className="flex min-h-screen w-screen flex-col gap-y-8 p-4 pl-[316px]">
       <Breadcrumbs />
-      <UserForm user={user} />
+      <Form user={user} />
     </main>
   );
 }

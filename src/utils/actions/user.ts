@@ -22,5 +22,4 @@ export const handleUpdateUser = async (id: string, formData: FormData) => {
 
   await updateUser({ id }, { email, role, password });
   revalidatePath('/', 'layout');
-  redirect('/admin/user');
 };

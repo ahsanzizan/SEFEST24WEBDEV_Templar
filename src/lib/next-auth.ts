@@ -106,7 +106,13 @@ export const authOptions: AuthOptions = {
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === 'update') {
+        const userdb = await findUser({ id: token.id });
+        if (!userdb) return token;
+        token.id = userdb?.id;
+        token.role = userdb?.role;
+      }
       if (user?.email) {
         const userdb = await findUser({ email: user.email });
         if (!userdb) return token;

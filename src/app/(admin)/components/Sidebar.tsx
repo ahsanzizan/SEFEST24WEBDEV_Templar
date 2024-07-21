@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const menus: { href: string; title: string }[] = [
+  { href: '/', title: 'Home' },
   { href: '/admin', title: 'Dashboard' },
   { href: '/admin/user', title: 'Users' },
   { href: '/admin/user', title: 'Donations' },
@@ -11,7 +12,7 @@ const menus: { href: string; title: string }[] = [
 
 export default function Sidebar() {
   return (
-    <aside className="fixed flex h-screen w-[300px] flex-col gap-y-4 bg-accent p-4 text-primary rounded-r-3xl">
+    <aside className="fixed flex h-screen w-[300px] flex-col gap-y-4 rounded-r-3xl bg-accent p-4 text-primary">
       <div className="flex items-center gap-x-2">
         <Image
           src="/dummy.jpeg"

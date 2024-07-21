@@ -1,7 +1,7 @@
 'use server';
 
 import { findAllUser } from '@/utils/database/user.query';
-import UserTable from './components/UserTable';
+import Table from './components/Table';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import Link from 'next/link';
 
@@ -19,7 +19,7 @@ export default async function page() {
           New User
         </Link>
       </div>
-      <UserTable users={users} />
+      <Table users={users} />
     </main>
   );
 }
