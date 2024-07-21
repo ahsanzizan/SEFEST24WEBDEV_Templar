@@ -8,15 +8,18 @@ datasource db {
 }
 
 model User {
-  id        String         @id @unique @default(uuid())
-  email     String         @unique
-  password  String?
-  role      Role           @default(GUEST)
-  donor     Donation[]     @relation(name: "donor")
-  recipient Donation[]     @relation(name: "recipient")
-  sender    Message[]      @relation(name: "sender")
-  reciever  Message[]      @relation(name: "reciever")
-  member    Organization[] @relation(name: "member")
+  id               String         @id @unique @default(uuid())
+  email            String         @unique
+  password         String?
+  role             Role           @default(GUEST)
+  request_donation Boolean        @default(false)
+  name             String?        @unique
+  description      String?
+  donor            Donation[]     @relation(name: "donor")
+  recipient        Donation[]     @relation(name: "recipient")
+  sender           Message[]      @relation(name: "sender")
+  reciever         Message[]      @relation(name: "reciever")
+  member           Organization[] @relation(name: "member")
 }
 
 model Donation {
@@ -28,6 +31,15 @@ model Donation {
   name              String        @unique
   pickup_coordinate String?
   pickup_status     PickupStatus?
+  tracking          Tracking[]    @relation(name: "tracking")
+}
+
+model Tracking {
+  id          String   @id @unique @default(uuid())
+  donation_id String
+  donation    Donation @relation(name: "tracking", fields: [donation_id], references: [id])
+  description String
+  createdAt   DateTime @default(now())
 }
 
 model Message {
@@ -63,6 +75,7 @@ enum Role {
 }
 
 enum PickupStatus {
+  RECIEVED
   CONFIRMED
   REJECTED
 }
