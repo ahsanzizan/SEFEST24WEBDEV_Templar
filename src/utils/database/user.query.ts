@@ -8,6 +8,26 @@ export const findAllUser = async () => {
   return await prisma.user.findMany();
 };
 
+export const findAllDonor = async () => {
+  return await prisma.user.findMany({ where: { role: 'DONOR' } });
+};
+
+export const findAllRecipient = async () => {
+  return await prisma.user.findMany({ where: { role: 'RECIPIENT' } });
+};
+
+export const findDonor = async (filter: string) => {
+  return await prisma.user.findMany({
+    where: { AND: [{ email: { contains: filter } }, { role: 'DONOR' }] }
+  });
+};
+
+export const findRecipient = async (filter: string) => {
+  return await prisma.user.findMany({
+    where: { AND: [{ email: { contains: filter } }, { role: 'RECIPIENT' }] }
+  });
+};
+
 export const findUser = async (where: Prisma.UserWhereUniqueInput) => {
   return await prisma.user.findUnique({ where });
 };

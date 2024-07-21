@@ -5,7 +5,7 @@ const menus: { href: string; title: string }[] = [
   { href: '/', title: 'Home' },
   { href: '/admin', title: 'Dashboard' },
   { href: '/admin/user', title: 'Users' },
-  { href: '/admin/user', title: 'Donations' },
+  { href: '/admin/donation', title: 'Donations' },
   { href: '/admin/user', title: 'Organizations' },
   { href: '/admin/user', title: 'Events' }
 ];

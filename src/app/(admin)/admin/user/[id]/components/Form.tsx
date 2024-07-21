@@ -40,34 +40,38 @@ export default function Form({ user }: { user?: User }) {
           type="text"
           name="email"
           id="email"
-          required={!user}
+          required
           className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
           defaultValue={user && user.email}
         />
       </div>
-      <label htmlFor="password">Password</label>
-      <input
-        type="text"
-        name="password"
-        id="password"
-        required={!user}
-        className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
-        placeholder={user && 'New password'}
-      />
-      <label htmlFor="role">Role</label>
-      <select
-        name="role"
-        id="role"
-        required={!user}
-        className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
-        defaultValue={user ? user.role : 'GUEST'}
-      >
-        <option value="ADMIN">Admin</option>
-        <option value="DONOR">Donor</option>
-        <option value="RECIPIENT">Recipient</option>
-        <option value="VOLUNTEER">Volunteer</option>
-        <option value="GUEST">Guest</option>
-      </select>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="password">Password</label>
+        <input
+          type="text"
+          name="password"
+          id="password"
+          required={!user}
+          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+          placeholder={user && 'New password'}
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="role">Role</label>
+        <select
+          name="role"
+          id="role"
+          required
+          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+          defaultValue={user ? user.role : 'GUEST'}
+        >
+          <option value="ADMIN">Admin</option>
+          <option value="DONOR">Donor</option>
+          <option value="RECIPIENT">Recipient</option>
+          <option value="VOLUNTEER">Volunteer</option>
+          <option value="GUEST">Guest</option>
+        </select>
+      </div>
       <button
         type="submit"
         className="mt-4 w-fit rounded-lg bg-secondary px-8 py-4 text-[#FFFBF2]"

@@ -48,25 +48,29 @@ export default function Form({ user }: { user: User }) {
           defaultValue={user.email}
         />
       </div>
-      <label htmlFor="password">Password</label>
-      <input
-        type="text"
-        name="password"
-        id="password"
-        className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
-        placeholder="Update password"
-      />
-      <label htmlFor="role">Role</label>
-      <select
-        name="role"
-        id="role"
-        className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
-        defaultValue={user.role}
-      >
-        <option value="DONOR">Donor</option>
-        <option value="RECIPIENT">Recipient</option>
-        <option value="VOLUNTEER">Volunteer</option>
-      </select>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="password">Password</label>
+        <input
+          type="text"
+          name="password"
+          id="password"
+          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+          placeholder="Update password"
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="role">Role</label>
+        <select
+          name="role"
+          id="role"
+          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+          defaultValue={user.role === 'GUEST' ? 'VOLUNTEER' : user.role}
+        >
+          <option value="DONOR">Donor</option>
+          <option value="RECIPIENT">Recipient</option>
+          <option value="VOLUNTEER">Volunteer</option>
+        </select>
+      </div>
       <button
         type="submit"
         className="mt-4 w-fit rounded-lg bg-secondary px-8 py-4 text-[#FFFBF2]"
