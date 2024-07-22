@@ -22,7 +22,7 @@ export default function Form({ user }: { user: User }) {
           role = user.role;
         }
 
-        if (role === 'ADMIN' || role === 'GUEST') {
+        if (user.role !== 'ADMIN' && (role === 'ADMIN' || role === 'GUEST')) {
           return toast.error('Error, invalid role', { id: toastId });
         }
 
