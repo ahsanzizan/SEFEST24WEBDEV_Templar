@@ -191,6 +191,7 @@ export default function Form({
             defaultOptions
             loadOptions={recipientLoadOptionsDebounced}
             noOptionsMessage={() => 'Recipient are not found'}
+            isClearable
           />
         </div>
         <div className="flex flex-col gap-2">

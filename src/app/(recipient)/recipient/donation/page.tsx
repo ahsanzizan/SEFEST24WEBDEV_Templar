@@ -29,7 +29,7 @@ export default function Page() {
 
   const handleFindAllDonations = async (where: string) => {
     const donations = await findFilterDonation({
-      //   recipient_id: { equals: null },
+      recipient_id: { equals: null },
       OR: [{ name: { contains: where } }]
     });
     setDonationsData(donations);
@@ -80,15 +80,18 @@ export default function Page() {
                   <h2 className="text-3xl font-semibold">{donation.name}</h2>
                   <p className="text-lg">{donation.description}</p>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex items-end justify-between">
                   <div>
                     <p className="text-lg font-medium">
                       By {donation.donor.name}
                     </p>
                     <p className="text-sm">{donation.donor.description}</p>
                   </div>
-                  <div>
+                  <div className="flex gap-4">
                     <p className="h-fit w-fit rounded-lg bg-blue-500 px-4 py-2 text-[#FFFBF2]">
+                      Message Donator
+                    </p>
+                    <p className="h-fit w-fit rounded-lg bg-green-500 px-4 py-2 text-[#FFFBF2]">
                       Request Donation
                     </p>
                   </div>

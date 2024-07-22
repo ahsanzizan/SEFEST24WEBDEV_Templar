@@ -37,7 +37,9 @@ export const handleUpdateDonation = async (id: string, formData: FormData) => {
       name,
       description,
       donor: { connect: { id: donor_id } },
-      recipient: { connect: { id: recipient_id } },
+      recipient: recipient_id
+        ? { connect: { id: recipient_id } }
+        : { disconnect: { id: recipient_id } },
       pickup_coordinate,
       pickup_status
     }

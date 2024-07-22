@@ -194,6 +194,7 @@ export default function Form({
         <div className="flex flex-col gap-2">
           <label htmlFor="recipient_id">Recipient Id</label>
           <AsyncSelect
+            isClearable
             defaultValue={
               donation && {
                 label: donation?.recipient?.email,
@@ -201,7 +202,6 @@ export default function Form({
               }
             }
             cacheOptions
-            required
             styles={{
               control: (baseStyles, state) => ({
                 ...baseStyles,
