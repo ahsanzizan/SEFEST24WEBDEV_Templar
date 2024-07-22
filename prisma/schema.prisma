@@ -29,6 +29,7 @@ model Donation {
   recipient_id      String?
   recipient         User?         @relation(name: "recipient", fields: [recipient_id], references: [id])
   name              String        @unique
+  description       String
   pickup_coordinate String?
   pickup_status     PickupStatus?
   tracking          Tracking[]    @relation(name: "tracking")
