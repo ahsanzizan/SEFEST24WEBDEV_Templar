@@ -8,26 +8,39 @@ datasource db {
 }
 
 model User {
-  id        String         @id @unique @default(uuid())
-  email     String         @unique
-  password  String
-  role      Role
-  donor     Donation[]     @relation("donor")
-  recipient Donation[]     @relation("recipient")
-  sender    Message[]      @relation("sender")
-  reciever  Message[]      @relation("reciever")
-  member    Organization[]
+  id               String         @id @unique @default(uuid())
+  email            String         @unique
+  password         String?
+  role             Role           @default(GUEST)
+  request_donation Boolean        @default(false)
+  name             String?        @unique
+  description      String?
+  donor            Donation[]     @relation(name: "donor")
+  recipient        Donation[]     @relation(name: "recipient")
+  sender           Message[]      @relation(name: "sender")
+  reciever         Message[]      @relation(name: "reciever")
+  member           Organization[] @relation(name: "member")
 }
 
 model Donation {
   id                String        @id @unique @default(uuid())
   donor_id          String
   donor             User          @relation(name: "donor", fields: [donor_id], references: [id])
-  recipient_id      String
-  recipient         User          @relation(name: "recipient", fields: [recipient_id], references: [id])
+  recipient_id      String?
+  recipient         User?         @relation(name: "recipient", fields: [recipient_id], references: [id])
   name              String        @unique
+  description       String
   pickup_coordinate String?
   pickup_status     PickupStatus?
+  tracking          Tracking[]    @relation(name: "tracking")
+}
+
+model Tracking {
+  id          String   @id @unique @default(uuid())
+  donation_id String
+  donation    Donation @relation(name: "tracking", fields: [donation_id], references: [id])
+  description String
+  createdAt   DateTime @default(now())
 }
 
 model Message {
@@ -41,18 +54,17 @@ model Message {
 
 model Organization {
   id        String  @id @unique @default(uuid())
-  member_id String
-  member    User    @relation(fields: [member_id], references: [id])
   name      String  @unique
-  event     Event[]
+  organizer Event[] @relation(name: "event")
+  user      User[]  @relation(name: "member")
 }
 
 model Event {
-  id              String       @id @unique @default(uuid())
-  organization_id String
-  organization    Organization @relation(fields: [organization_id], references: [id])
-  name            String       @unique
-  date            DateTime     @default(now())
+  id           String       @id @unique @default(uuid())
+  organizer_id String
+  organizer    Organization @relation(name: "event", fields: [organizer_id], references: [id])
+  name         String       @unique
+  date         DateTime     @default(now())
 }
 
 enum Role {
@@ -64,6 +76,7 @@ enum Role {
 }
 
 enum PickupStatus {
+  RECIEVED
   CONFIRMED
   REJECTED
 }
