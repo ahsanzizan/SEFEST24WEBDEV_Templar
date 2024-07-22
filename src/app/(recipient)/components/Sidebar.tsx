@@ -6,8 +6,9 @@ import Link from 'next/link';
 
 const menus: { href: string; title: string }[] = [
   { href: '/', title: 'Home' },
-  { href: '/donor', title: 'Dashboard' },
-  { href: '/donor/donation', title: 'Donations' }
+  { href: '/recipient', title: 'Dashboard' },
+  { href: '/recipient/donation', title: 'Donation List' },
+  { href: '/recipient/donation', title: 'Donation Manager' }
 ];
 
 export default function Sidebar() {

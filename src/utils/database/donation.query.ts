@@ -13,8 +13,8 @@ export const findFilterDonation = async (where: Prisma.DonationWhereInput) => {
   return await prisma.donation.findMany({
     where,
     include: {
-      donor: { select: { email: true } },
-      recipient: { select: { email: true } }
+      donor: true,
+      recipient: true
     }
   });
 };

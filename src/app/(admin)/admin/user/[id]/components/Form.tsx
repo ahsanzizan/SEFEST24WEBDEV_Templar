@@ -42,7 +42,7 @@ export default function Form({ user }: { user?: User }) {
       <div className="flex flex-col gap-2">
         <label htmlFor="email">Email</label>
         <input
-          type="text"
+          type="email"
           name="email"
           id="email"
           required
@@ -51,9 +51,30 @@ export default function Form({ user }: { user?: User }) {
         />
       </div>
       <div className="flex flex-col gap-2">
-        <label htmlFor="password">Password</label>
+        <label htmlFor="name">Name</label>
         <input
           type="text"
+          name="name"
+          id="name"
+          required
+          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+          defaultValue={user && user.name!}
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="description">Description</label>
+        <textarea
+          name="description"
+          id="description"
+          required
+          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+          defaultValue={user && user.description!}
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
           name="password"
           id="password"
           required={!user}

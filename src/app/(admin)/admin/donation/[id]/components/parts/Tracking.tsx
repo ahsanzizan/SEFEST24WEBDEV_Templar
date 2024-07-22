@@ -65,15 +65,15 @@ export default function TrackingData({ donation_id }: { donation_id: string }) {
           New Tracking
         </Link>
       </div>
-      <div className="flex flex-col gap-y-4">
+      <div className="flex flex-col gap-y-4 pb-4">
         {tracking &&
           tracking.map((track, index) => (
             <div
               key={index}
               className="flex w-full flex-col gap-y-2 rounded-lg border-2 border-secondary p-2 text-secondary"
             >
-              <p>{track.description}</p>
-              <p>{dateFormat(track.createdAt)}</p>
+              <p className="text-lg"> {track.description}</p>
+              <p className="text-sm">{dateFormat(track.createdAt)}</p>
               <div className="flex items-center justify-end gap-2 text-nowrap">
                 <Link
                   href={`/admin/donation/${track.donation_id}/${track.id}`}

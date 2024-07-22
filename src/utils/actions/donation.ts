@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 
 export const handleCreateDonation = async (formData: FormData) => {
   const name = formData.get('name') as string;
+  const description = formData.get('description') as string;
   const donor_id = formData.get('donor_id') as string;
   const recipient_id = formData.get('recipient_id') as string;
   const pickup_coordinate = formData.get('pickup_coordinate') as string;
@@ -13,6 +14,7 @@ export const handleCreateDonation = async (formData: FormData) => {
 
   await createDonation({
     name,
+    description,
     donor: { connect: { id: donor_id } },
     recipient: recipient_id ? { connect: { id: recipient_id } } : undefined,
     pickup_coordinate,
@@ -23,6 +25,7 @@ export const handleCreateDonation = async (formData: FormData) => {
 
 export const handleUpdateDonation = async (id: string, formData: FormData) => {
   const name = formData.get('name') as string;
+  const description = formData.get('description') as string;
   const donor_id = formData.get('donor_id') as string;
   const recipient_id = formData.get('recipient_id') as string;
   const pickup_coordinate = formData.get('pickup_coordinate') as string;
@@ -32,6 +35,7 @@ export const handleUpdateDonation = async (id: string, formData: FormData) => {
     { id },
     {
       name,
+      description,
       donor: { connect: { id: donor_id } },
       recipient: { connect: { id: recipient_id } },
       pickup_coordinate,

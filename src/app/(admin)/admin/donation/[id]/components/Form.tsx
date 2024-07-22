@@ -153,6 +153,17 @@ export default function Form({
           />
         </div>
         <div className="flex flex-col gap-2">
+          <label htmlFor="description">Description</label>
+          <input
+            type="text"
+            name="description"
+            id="description"
+            required
+            className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+            defaultValue={donation && donation.description}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
           <label htmlFor="donor_id">Donor Id</label>
           <AsyncSelect
             defaultValue={
@@ -200,12 +211,12 @@ export default function Form({
                 borderColor: state.isFocused ? '#001E16' : '#475443'
               })
             }}
-            placeholder="Select donator"
+            placeholder="Select recipient"
             id="recipient_id"
             name="recipient_id"
             defaultOptions
             loadOptions={recipientLoadOptionsDebounced}
-            noOptionsMessage={() => 'Donators not found'}
+            noOptionsMessage={() => 'Recipient not found'}
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -229,6 +240,7 @@ export default function Form({
           >
             <option value="REJECTED">Rejected</option>
             <option value="CONFIRMED">Confirmed</option>
+            <option value="RECIEVED">Recieved</option>
           </select>
         </div>
         <button

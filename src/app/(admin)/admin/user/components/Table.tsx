@@ -25,6 +25,11 @@ export default function Table({ users }: { users: User[] }) {
       sortable: true
     },
     {
+      name: 'Name',
+      selector: (row) => row.name!,
+      sortable: true
+    },
+    {
       name: 'Role',
       selector: (row) => row.role,
       sortable: true
