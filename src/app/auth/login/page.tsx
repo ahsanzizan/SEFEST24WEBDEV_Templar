@@ -14,7 +14,7 @@ export default function Login() {
   const { status } = useSession();
   const [loading, setLoading] = useState(false);
   const [formValues, setFormValues] = useState({
-    username: '',
+    email: '',
     password: ''
   });
 
@@ -37,8 +37,8 @@ export default function Login() {
         ...formValues
       });
 
+      setLoading(false);
       if (res?.error) {
-        setLoading(false);
         toast.error(
           res.error == 'CredentialsSignin'
             ? 'Wrong Username / Password'
@@ -47,6 +47,8 @@ export default function Login() {
             id: toastId
           }
         );
+      } else {
+        toast.success('Login successfully', { id: toastId });
       }
     } catch (error) {
       toast.error('Something Wrong', {
@@ -83,12 +85,14 @@ export default function Login() {
               onChange={handleChange}
               type="email"
               label="Email"
+              name="email"
               placeholder="email@example.com"
             />
             <Input
               onChange={handleChange}
               type="password"
               label="Password"
+              name="password"
               placeholder="******"
             />
           </div>
