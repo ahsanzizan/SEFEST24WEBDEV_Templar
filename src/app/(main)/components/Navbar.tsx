@@ -4,7 +4,7 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 
 import { cn } from '@/utils/cn';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaHamburger } from 'react-icons/fa';
@@ -134,6 +134,44 @@ export default function Navbar() {
               {navOption.title}
             </NextLink>
           ))}
+        </div>
+        <div className="my-[21px] flex flex-col items-start justify-start gap-4 px-4 text-start sm:px-20">
+          {session?.user ? (
+            <div className="flex items-center gap-4">
+              <Link
+                href={`/${session.user.role === 'GUEST' ? 'user' : session.user.role.toLowerCase()}`}
+                className="xl:mt-[20px] xl:inline-flex"
+                variant={'default'}
+              >
+                Dashboard
+              </Link>
+              <Link
+                href={'/'}
+                onClick={() => signOut()}
+                className="xl:mt-[20px] xl:inline-flex"
+                variant={'inverse'}
+              >
+                Logout
+              </Link>
+            </div>
+          ) : (
+            <div className="flex items-center gap-4">
+              <Link
+                href={'/auth/login'}
+                className="xl:mt-[20px] xl:inline-flex"
+                variant={'default'}
+              >
+                Login
+              </Link>
+              <Link
+                href={'/auth/register'}
+                className="xl:mt-[20px] xl:inline-flex"
+                variant={'inverse'}
+              >
+                Daftar
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>
