@@ -83,13 +83,23 @@ export default function Navbar() {
           ))}
         </div>
         {session?.user ? (
-          <Link
-            href={`/${session.user.role === 'GUEST' ? 'user' : session.user.role.toLowerCase()}`}
-            className="hidden xl:mt-[20px] xl:inline-flex"
-            variant={'default'}
-          >
-            Dashboard
-          </Link>
+          <div className="hidden items-center gap-4 xl:flex">
+            <Link
+              href={`/${session.user.role === 'GUEST' ? 'user' : session.user.role.toLowerCase()}`}
+              className="hidden xl:mt-[20px] xl:inline-flex"
+              variant={'default'}
+            >
+              Dashboard
+            </Link>
+            <Link
+              href={'/'}
+              onClick={() => signOut()}
+              className="xl:mt-[20px] xl:inline-flex"
+              variant={'inverse'}
+            >
+              Logout
+            </Link>
+          </div>
         ) : (
           <div className="hidden items-center gap-4 xl:flex">
             <Link
