@@ -40,19 +40,22 @@ export default function JoinUs() {
   return (
     <section
       id="join-us"
-      className="flex w-screen flex-col items-center justify-center gap-y-8 p-20"
+      className="flex w-screen flex-col items-center justify-center gap-y-8 p-4 sm:p-20"
     >
       <H2>
         Mari <span className="text-highlight">Atasi Kelaparan</span> Bersama
         Kami!
       </H2>
-      <P>
+      <P className="px-4 text-center">
         Bergabung bersama kami untuk mewujudkan Indonesia yang bebas kelaparan
       </P>
-      <div className="flex justify-between gap-x-4">
+      <div className="flex w-full flex-wrap justify-center gap-4">
         {cardProps.map((props, index) => (
-          <div key={index} className="relative flex w-2/6 flex-col gap-y-4">
-            <div className="group h-[250px] w-full overflow-hidden rounded-lg">
+          <div
+            key={index}
+            className="group relative flex w-full max-w-full flex-col gap-y-4 lg:w-[32%]"
+          >
+            <div className="h-[250px] w-full overflow-hidden rounded-lg">
               <Image
                 src={props.image}
                 alt="Events"
@@ -63,7 +66,7 @@ export default function JoinUs() {
             </div>
             <H3>{props.title}</H3>
             <P className="mb-3">{props.description}</P>
-            <Link href={props.href} variant={'default'}>
+            <Link href={props.href} variant="default" className="group-hover">
               Gabung
             </Link>
           </div>

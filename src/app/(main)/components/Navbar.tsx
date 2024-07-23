@@ -45,7 +45,7 @@ export default function Navbar() {
         <NextLink href={'/'} className="block xl:mt-[20px]">
           <Image
             src={'/assets/logo.svg'}
-            alt="Logo moklet.org"
+            alt="Logo FeedForward"
             width={120}
             height={50}
             className="pointer-events-none h-[50px] w-[200px]"
@@ -60,7 +60,7 @@ export default function Navbar() {
             <NextLink href="/">
               <Image
                 src={'/assets/icon.svg'}
-                alt="Logo moklet.org"
+                alt="Logo FeedForward"
                 width={40}
                 height={40}
                 className={cn(
@@ -112,22 +112,22 @@ export default function Navbar() {
           className="block xl:hidden"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          <FaHamburger />
+          <FaHamburger color="#ffffff" className="h-full w-[40px]" />
         </button>
       </div>
       <div
         className={cn(
-          `z-[800] block h-[300px] w-full bg-black transition-all duration-500 xl:hidden ${isExpanded ? 'mt-0' : '-mt-96'}`
+          `z-[800] block h-fit w-full bg-primary transition-all duration-500 xl:hidden ${isExpanded ? 'mt-0' : '-mt-96'}`
         )}
       >
-        <div className="my-[21px] ms-[20px] flex flex-col items-start justify-start gap-2 text-start lg:ms-[52px]">
+        <div className="my-[21px] flex flex-col items-start justify-start gap-2 px-4 text-start sm:px-20 lg:ms-[52px]">
           {menus.map((navOption) => (
             <NextLink
               key={navOption.title}
               href={navOption.href}
               // Splitted "/a/b" will form an array: ["", "a", "b"], that's why we use the second index as comparation
               className={cn(
-                `hover:text-primary-400 rounded-xl text-center text-[16px] transition-all duration-300 ${pathname.split('/')[1] === navOption.href.split('/')[1] ? 'text-white' : ''}`
+                `hover:text-primary-400 rounded-xl text-center text-xl text-white transition-all duration-300 ${pathname.split('/')[1] === navOption.href.split('/')[1] ? 'text-white' : ''}`
               )}
               onClick={() => setIsExpanded(false)}
             >
