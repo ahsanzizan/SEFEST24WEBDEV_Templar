@@ -1,47 +1,72 @@
-import Image from 'next/image';
+import { Link } from '@/app/components/global/button';
+import { H2, H3, P } from '@/app/components/global/text';
+import { Event } from '@prisma/client';
+import { FaArrowRight } from 'react-icons/fa';
+import { FaNoteSticky } from 'react-icons/fa6';
 
-const events: string[] = [
-  'Connect food donors (restaurants, grocery stores, etc) with foodbanks and shelters.Connect food donors (restaurants, grocery stores,etc) with food banks and shelters.',
-  'Connect food donors (restaurants, grocery stores, etc) with foodbanks and shelters.',
-  'Connect food donors (restaurants, grocery stores, etc) with foodbanks and shelters.'
+const events: Event[] = [
+  {
+    id: '1',
+    name: 'Indonesia Kenyang 2045',
+    description:
+      'Mewujudkan indonesia bebas dari kelaparan yang melanda selama tahun 2030-2044',
+    date: new Date(),
+    organizer_id: '',
+    slug: 'ass'
+  },
+  {
+    id: '2',
+    name: 'Papua Makan Bersama 2025',
+    description:
+      'Melayani pulau papua untuk ketersediaan makanan. Ikuti event ini dan tunjukan rasa kemanusiaan mu!',
+    date: new Date(),
+    organizer_id: '',
+    slug: 'ass'
+  },
+  {
+    id: '3',
+    name: 'Peduli Palu 2020',
+    description:
+      'Sebuah bencana alam yang melanda daerah sulawesi yang berfokus pada palu. Menyebabkan banyak nya rumah hancur, dan warga yang kelaparan',
+    date: new Date(),
+    organizer_id: '',
+    slug: 'ass'
+  }
 ];
 
-export default function Event() {
+export default function Events() {
   return (
-    <section id='event' className="flex h-screen w-screen flex-col justify-center gap-y-8 px-20">
-      <div className="flex justify-between">
-        <h2 className="text-center text-5xl font-bold text-[#475443]">
-          Events
-        </h2>
-        <p className="w-fit rounded-lg bg-secondary px-8 py-4 text-[#FFFBF2]">
-          See all events
-        </p>
+    <section
+      id="events"
+      className="flex w-screen flex-col justify-center gap-y-8 p-20"
+    >
+      <div className="mb-4 flex items-center justify-between">
+        <H2 className="w-1/3">Event untuk Relawan</H2>
+        <div className="flex w-1/2 flex-col items-end gap-2">
+          <P className="mb-2 text-right">
+            Event-event yang sedang berlangsung pada FeedForward, anda dapat
+            berkontribusi dengan menjadi relawan
+          </P>
+          <Link href={'/events'} variant={'default'}>
+            Lihat semua{' '}
+            <FaArrowRight className="ml-2 transition-transform duration-300 group-hover:translate-x-2" />
+          </Link>
+        </div>
       </div>
       <div className="flex justify-between gap-x-4">
-        {events.map((event, index) => (
+        {events.map((event) => (
           <div
-            key={index}
-            className="relative flex h-[60vh] w-2/6 flex-col gap-y-4"
+            key={event.id}
+            className="flex h-[320px] w-1/3 flex-col justify-between rounded-lg border border-gray-400 bg-primary p-5"
           >
-            <Image
-              src="/dummy.jpeg"
-              alt="Events"
-              width={500}
-              height={500}
-              className="h-[200px] w-full rounded-lg object-cover"
-            />
-            <p className="text-secondary">12 january 2024</p>
-            <h2 className="text-2xl font-medium text-dark">
-              Indonesia Zero Hunger
-            </h2>
-            <p className="text-justify text-lg text-secondary">
-              {event.length >= 125 ? event.slice(0, 125) + '...' : event}
-            </p>
-            <div className="absolute bottom-0 right-0 flex justify-end">
-              <p className="w-fit rounded-lg bg-accent px-8 py-4 text-[#FFFBF2]">
-                Contribute
-              </p>
+            <div>
+              <FaNoteSticky className="mb-4 text-3xl text-white" />
+              <H3 className="mb-4 truncate">{event.name}</H3>
+              <P className="line-clamp-4">{event.description}</P>
             </div>
+            <Link href={`/events/${event.slug}`} variant={'default'}>
+              Lebih detail
+            </Link>
           </div>
         ))}
       </div>

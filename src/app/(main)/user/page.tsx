@@ -1,12 +1,10 @@
 'use server';
 
+import Breadcrumbs from '@/components/Breadcrumbs';
 import { nextGetServerSession } from '@/lib/next-auth';
 import { findUser } from '@/utils/database/user.query';
-import React from 'react';
-import Form from './components/Form';
 import { notFound } from 'next/navigation';
-import Breadcrumbs from '@/components/Breadcrumbs';
-import Link from 'next/link';
+import Form from './components/Form';
 
 export default async function page() {
   const session = await nextGetServerSession();

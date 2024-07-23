@@ -1,13 +1,10 @@
 import { Role } from '@prisma/client';
-import { type DefaultSession, AuthOptions } from 'next-auth';
-import { getServerSession } from 'next-auth';
+import { type DefaultSession, AuthOptions, getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
 import { createUser, findUser } from '@/utils/database/user.query';
 import { compareHash } from '@/utils/encryption';
-
-import prisma from './prisma';
 
 import type { DefaultJWT } from 'next-auth/jwt';
 
@@ -20,7 +17,6 @@ declare module 'next-auth' {
       id: string;
       role: Role;
       email: string;
-      someExoticUserProperty?: string;
     } & DefaultSession['user'];
   }
 }
@@ -60,24 +56,22 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const findUser = await prisma.user.findUnique({
-            where: { email: credentials?.email }
-          });
-          if (!findUser) return null;
+          const user = await findUser({ email: credentials?.email });
+          if (!user) return null;
 
           const comparePassword = compareHash(
             credentials?.password as string,
-            findUser?.password as string
+            user?.password as string
           );
 
           if (!comparePassword) return null;
 
-          const user = {
-            id: findUser.id,
-            role: findUser.role,
-            email: findUser.email
+          const payload = {
+            id: user.id,
+            role: user.role,
+            email: user.email
           };
-          return user;
+          return payload;
         } catch (e) {
           console.error(e);
           return null;

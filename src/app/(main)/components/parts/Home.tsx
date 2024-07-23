@@ -1,33 +1,28 @@
-import Image from 'next/image';
+import { Link } from '@/app/components/global/button';
+import { H1, P } from '@/app/components/global/text';
+import { FaArrowRight } from 'react-icons/fa';
 
 export default function Home() {
   return (
-    <section
-      id="home"
-      className="flex h-screen w-screen items-center justify-between px-20 pt-20"
-    >
-      <div className="flex w-1/2 flex-col gap-y-8">
-        <h1 className="text-justify text-6xl font-bold text-[#475443]">
-          Donate Your Food To Save The World! Please!
-        </h1>
-        <p className="text-justify text-lg text-[#475443]">
-          Memanfaatkan Teknologi Digital untuk Menjembatani Kesenjangan Antara
-          Surplus Pangan dan Kerawanan Pangan Memanfaatkan Teknologi Digital
-          untuk Menjembatani Kesenjangan Antara Surplus Pangan dan Kerawanan
-          Pangan
-        </p>
-        <p className="w-fit rounded-lg bg-[#475443] px-8 py-4 text-[#FFFBF2]">
-          Donate Now
-        </p>
-      </div>
-      <div className="flex h-full w-1/2 items-center justify-end">
-        <Image
-          src="/assets/charity.svg"
-          alt="Charity"
-          width={500}
-          height={500}
-          className="h-auto w-3/4 object-cover"
-        />
+    <section id="home" className="flex h-[80vh] w-screen items-center p-20">
+      <div className="mx-auto max-w-[80%] text-center">
+        <H1 className="mb-4">
+          Sumbangkan <span className="text-highlight">Pangan</span>, Atasi
+          Kelaparan
+        </H1>
+        <P className="mb-8">
+          Bergabung dan bantu kami optimalkan distribusi pangan untuk atasi
+          kelaparan
+        </P>
+        <div className="mx-auto flex w-full items-center justify-center gap-5">
+          <Link href={'/donor'} variant={'default'}>
+            Mau Nyumbang{' '}
+            <FaArrowRight className="ml-2 transition-transform duration-300 group-hover:translate-x-2" />
+          </Link>
+          <Link href={'/recipient'} variant={'inverse'}>
+            Butuh Donor
+          </Link>
+        </div>
       </div>
     </section>
   );

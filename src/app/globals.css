@@ -16,5 +16,39 @@
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: #ea9715 #fffbf2;
+  scrollbar-color: #0b1215 #fffbf2;
+}
+
+body {
+  @apply bg-primary;
+}
+
+.text-highlight {
+  background-image: linear-gradient(
+    90deg,
+    rgba(22, 10, 255, 0.35),
+    rgba(22, 10, 255, 0.08)
+  );
+  border-left: 4px solid #160aff;
+  border-radius: 0;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  line-height: 1;
+  display: inline-block;
+  @apply animate-pulse;
+}
+
+.text-highlight-sec {
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 165, 10, 0.35),
+    rgba(255, 165, 10, 0.08)
+  );
+  border-left: 4px solid #ffa50a;
+  border-radius: 0;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  line-height: 1;
+  display: inline-block;
+  @apply animate-pulse;
 }

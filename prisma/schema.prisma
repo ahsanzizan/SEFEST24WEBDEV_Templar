@@ -17,8 +17,6 @@ model User {
   description      String?
   donor            Donation[]     @relation(name: "donor")
   recipient        Donation[]     @relation(name: "recipient")
-  sender           Message[]      @relation(name: "sender")
-  reciever         Message[]      @relation(name: "reciever")
   member           Organization[] @relation(name: "member")
 }
 
@@ -43,15 +41,6 @@ model Tracking {
   createdAt   DateTime @default(now())
 }
 
-model Message {
-  id          String @id @unique @default(uuid())
-  sender_id   String
-  sender      User   @relation(name: "sender", fields: [sender_id], references: [id])
-  reciever_id String
-  reciever    User   @relation(name: "reciever", fields: [reciever_id], references: [id])
-  content     String
-}
-
 model Organization {
   id        String  @id @unique @default(uuid())
   name      String  @unique
@@ -64,7 +53,9 @@ model Event {
   organizer_id String
   organizer    Organization @relation(name: "event", fields: [organizer_id], references: [id])
   name         String       @unique
+  description  String
   date         DateTime     @default(now())
+  slug         String
 }
 
 enum Role {
