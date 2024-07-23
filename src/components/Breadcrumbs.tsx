@@ -11,14 +11,14 @@ export default function Breadcrumbs() {
   const path = pathname.split('/').slice(1);
 
   return (
-    <div className="flex gap-2 text-lg text-secondary">
+    <div className="flex gap-2 text-lg text-white">
       <Link href="/" className="font-medium">
         Home
       </Link>
       {path &&
         path.map((item, index) => (
           <Fragment key={index}>
-            <p>/</p>
+            <p className="text-tertiary font-semibold">/</p>
             <Link
               href={'/' + path.slice(0, index + 1).join('/')}
               className="font-medium"

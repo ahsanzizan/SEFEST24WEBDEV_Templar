@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { deleteDonation } from '@/utils/database/donation.query';
+import { customStyles } from '@/utils/reactDataTable';
 
 export default function Table({
   donations
@@ -109,7 +110,7 @@ export default function Table({
         columns={columns}
         data={donations}
         pagination
-        highlightOnHover
+        customStyles={customStyles}
       />
     </div>
   );

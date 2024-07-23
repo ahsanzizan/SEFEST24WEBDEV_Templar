@@ -8,7 +8,7 @@ import { signOut, useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaHamburger } from 'react-icons/fa';
-import { Link } from '@/app/components/global/button';
+import { Button, Link } from '@/app/components/global/button';
 
 interface Menu {
   title: string;
@@ -91,14 +91,13 @@ export default function Navbar() {
             >
               Dashboard
             </Link>
-            <Link
-              href={'/'}
-              onClick={() => signOut()}
+            <Button
+              onClick={() => signOut({ callbackUrl: '/' })}
               className="xl:mt-[20px] xl:inline-flex"
               variant={'inverse'}
             >
               Logout
-            </Link>
+            </Button>
           </div>
         ) : (
           <div className="hidden items-center gap-4 xl:flex">
@@ -155,14 +154,13 @@ export default function Navbar() {
               >
                 Dashboard
               </Link>
-              <Link
-                href={'/'}
-                onClick={() => signOut()}
+              <Button
+                onClick={() => signOut({ callbackUrl: '/' })}
                 className="xl:mt-[20px] xl:inline-flex"
                 variant={'inverse'}
               >
                 Logout
-              </Link>
+              </Button>
             </div>
           ) : (
             <div className="flex items-center gap-4">

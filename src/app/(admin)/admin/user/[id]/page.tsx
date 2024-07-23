@@ -25,6 +25,7 @@ export default async function page({ params }: { params: { id: string } }) {
   return (
     <main className="flex min-h-screen w-screen flex-col gap-y-8 p-4 pl-[316px]">
       <Breadcrumbs />
+      <h2 className="text-5xl font-bold text-white">User Form</h2>
       <Form user={user} />
     </main>
   );
