@@ -25,7 +25,7 @@ export default function Footer() {
         className="h-[50px] w-[200px] transition-all duration-500 hover:scale-105"
       />
       <div className="flex w-full flex-col justify-between gap-8 md:flex-row">
-        <P className="w-1/3">
+        <P className="w-full md:w-1/3">
           Memanfaatkan Teknologi Digital untuk Menjembatani Kesenjangan Antara
           Surplus Pangan dan Kerawanan Pangan
         </P>

@@ -120,14 +120,14 @@ export default function Navbar() {
           `z-[800] block h-fit w-full bg-primary transition-all duration-500 xl:hidden ${isExpanded ? 'mt-0' : '-mt-96'}`
         )}
       >
-        <div className="my-[21px] flex flex-col items-start justify-start gap-2 px-4 text-start sm:px-20 lg:ms-[52px]">
+        <div className="my-[21px] flex flex-col items-start justify-start gap-4 px-4 text-start sm:px-20">
           {menus.map((navOption) => (
             <NextLink
               key={navOption.title}
               href={navOption.href}
               // Splitted "/a/b" will form an array: ["", "a", "b"], that's why we use the second index as comparation
               className={cn(
-                `hover:text-primary-400 rounded-xl text-center text-xl text-white transition-all duration-300 ${pathname.split('/')[1] === navOption.href.split('/')[1] ? 'text-white' : ''}`
+                `hover:text-primary-400 rounded-xl text-center text-3xl font-bold text-white transition-all duration-300 ${pathname.split('/')[1] === navOption.href.split('/')[1] ? 'text-white' : ''}`
               )}
               onClick={() => setIsExpanded(false)}
             >
