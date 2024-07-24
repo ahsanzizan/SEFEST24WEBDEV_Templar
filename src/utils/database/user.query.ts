@@ -1,8 +1,8 @@
 'use server';
 
 import prisma from '@/lib/prisma';
+import { encrypt } from '@/utils/encryption';
 import { Prisma } from '@prisma/client';
-import { hashSync } from 'bcrypt';
 
 export const findAllUser = async () => {
   return await prisma.user.findMany();
@@ -43,7 +43,7 @@ export const createUser = async (data: Prisma.UserCreateInput) => {
   return await prisma.user.create({
     data: {
       ...data,
-      password: data.password ? hashSync(data.password, 12) : undefined
+      password: data.password ? await encrypt(data.password) : undefined
     }
   });
 };
@@ -57,7 +57,7 @@ export const updateUser = async (
     data: {
       ...data,
       password: data.password
-        ? hashSync(data.password as string, 12)
+        ? await encrypt(data.password as string)
         : undefined
     }
   });

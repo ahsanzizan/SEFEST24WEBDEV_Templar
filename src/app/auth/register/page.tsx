@@ -118,6 +118,15 @@ export default function Login() {
               placeholder="******"
             />
           </div>
+          <P className="mb-4">
+            Sudah punya akun?{' '}
+            <Link
+              href={'/auth/login'}
+              className="underline transition-all duration-300 hover:text-white"
+            >
+              Masuk
+            </Link>
+          </P>
           <Button
             disabled={loading}
             type="submit"

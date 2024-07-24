@@ -59,9 +59,11 @@ export const authOptions: AuthOptions = {
           const user = await findUser({ email: credentials?.email });
           if (!user) return null;
 
-          const comparePassword = compareHash(
-            credentials?.password as string,
-            user?.password as string
+          console.log(user.password);
+
+          const comparePassword = await compareHash(
+            credentials?.password!,
+            user.password!
           );
 
           if (!comparePassword) return null;
@@ -92,12 +94,13 @@ export const authOptions: AuthOptions = {
       return redirectUrl;
     },
     async signIn({ user }) {
-      if (user.email) {
+      if (user.email && user.name) {
         const userdb = await findUser({ email: user.email });
         if (!userdb) {
-          await createUser({ email: user.email });
+          await createUser({ name: user.name, email: user.email });
         }
       }
+
       return true;
     },
     async jwt({ token, user, trigger, session }) {

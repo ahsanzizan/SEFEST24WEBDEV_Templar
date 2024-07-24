@@ -10,8 +10,6 @@ export async function POST(req: Request) {
       nama
     }: { email: string; password: string; nama: string } = await req.json();
 
-    console.log(email, nama, password);
-
     if (!email || !password || !nama) {
       return Response.json(
         { status: 403, message: 'All credentials must be filled' },
@@ -32,7 +30,7 @@ export async function POST(req: Request) {
 
     await createUser({
       email,
-      password: encrypt(password as string),
+      password,
       name: nama
     });
 
