@@ -4,11 +4,11 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 
 import { cn } from '@/utils/cn';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaHamburger } from 'react-icons/fa';
-import { Link } from '@/app/components/global/button';
+import { Button, Link } from '@/app/components/global/button';
 
 interface Menu {
   title: string;
@@ -83,13 +83,22 @@ export default function Navbar() {
           ))}
         </div>
         {session?.user ? (
-          <Link
-            href={`/${session.user.role === 'GUEST' ? 'user' : session.user.role.toLowerCase()}`}
-            className="hidden xl:mt-[20px] xl:inline-flex"
-            variant={'default'}
-          >
-            Dashboard
-          </Link>
+          <div className="hidden items-center gap-4 xl:flex">
+            <Link
+              href={`/${session.user.role === 'GUEST' ? 'user' : session.user.role.toLowerCase()}`}
+              className="hidden xl:mt-[20px] xl:inline-flex"
+              variant={'default'}
+            >
+              Dashboard
+            </Link>
+            {/* <Button
+              onClick={() => signOut({ callbackUrl: '/' })}
+              className="xl:mt-[20px] xl:inline-flex"
+              variant={'inverse'}
+            >
+              Lo
+            </Button> */}
+          </div>
         ) : (
           <div className="hidden items-center gap-4 xl:flex">
             <Link
@@ -120,20 +129,57 @@ export default function Navbar() {
           `z-[800] block h-fit w-full bg-primary transition-all duration-500 xl:hidden ${isExpanded ? 'mt-0' : '-mt-96'}`
         )}
       >
-        <div className="my-[21px] flex flex-col items-start justify-start gap-2 px-4 text-start sm:px-20 lg:ms-[52px]">
+        <div className="my-[21px] flex flex-col items-start justify-start gap-4 px-4 text-start sm:px-20">
           {menus.map((navOption) => (
             <NextLink
               key={navOption.title}
               href={navOption.href}
               // Splitted "/a/b" will form an array: ["", "a", "b"], that's why we use the second index as comparation
               className={cn(
-                `hover:text-primary-400 rounded-xl text-center text-xl text-white transition-all duration-300 ${pathname.split('/')[1] === navOption.href.split('/')[1] ? 'text-white' : ''}`
+                `hover:text-primary-400 rounded-xl text-center text-3xl font-bold text-white transition-all duration-300 ${pathname.split('/')[1] === navOption.href.split('/')[1] ? 'text-white' : ''}`
               )}
               onClick={() => setIsExpanded(false)}
             >
               {navOption.title}
             </NextLink>
           ))}
+        </div>
+        <div className="my-[21px] flex flex-col items-start justify-start gap-4 px-4 text-start sm:px-20">
+          {session?.user ? (
+            <div className="flex items-center gap-4">
+              <Link
+                href={`/${session.user.role === 'GUEST' ? 'user' : session.user.role.toLowerCase()}`}
+                className="xl:mt-[20px] xl:inline-flex"
+                variant={'default'}
+              >
+                Dashboard
+              </Link>
+              <Button
+                onClick={() => signOut({ callbackUrl: '/' })}
+                className="xl:mt-[20px] xl:inline-flex"
+                variant={'inverse'}
+              >
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-4">
+              <Link
+                href={'/auth/login'}
+                className="xl:mt-[20px] xl:inline-flex"
+                variant={'default'}
+              >
+                Login
+              </Link>
+              <Link
+                href={'/auth/register'}
+                className="xl:mt-[20px] xl:inline-flex"
+                variant={'inverse'}
+              >
+                Daftar
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

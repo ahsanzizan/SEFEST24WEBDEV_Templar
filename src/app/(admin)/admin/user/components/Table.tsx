@@ -7,7 +7,8 @@ import { toast } from 'sonner';
 import { useEffect, useState } from 'react';
 import { deleteUser } from '@/utils/database/user.query';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { customStyles } from '@/utils/reactDataTable';
+import { Button, Link } from '@/app/components/global/button';
 
 export default function Table({ users }: { users: User[] }) {
   const [loading, setLoading] = useState(true);
@@ -37,21 +38,23 @@ export default function Table({ users }: { users: User[] }) {
     {
       name: 'Action',
       cell: (row) => (
-        <div className="flex items-center justify-between gap-2 text-nowrap">
+        <div className="flex w-full items-center justify-end gap-2 text-nowrap">
           <Link
+            variant={'info'}
             href={'/admin/user/' + row.id}
-            className="h-fit w-fit rounded-lg bg-blue-500 px-4 py-2 text-[#FFFBF2]"
+            className="h-fit w-fit rounded-lg px-4 py-2"
           >
             Details
           </Link>
-          <button
+          <Button
             onClick={() => {
               handleDeleteUser(row.id);
             }}
-            className="h-fit w-fit rounded-lg bg-red-500 px-4 py-2 text-[#FFFBF2]"
+            className="h-fit w-fit rounded-lg px-4 py-2"
+            variant={'danger'}
           >
             Delete
-          </button>
+          </Button>
         </div>
       )
     }
@@ -76,7 +79,13 @@ export default function Table({ users }: { users: User[] }) {
 
   return (
     <div>
-      <DataTable columns={columns} data={users} pagination highlightOnHover />
+      <DataTable
+        className="border-t-2 border-white"
+        columns={columns}
+        data={users}
+        pagination
+        customStyles={customStyles}
+      />
     </div>
   );
 }

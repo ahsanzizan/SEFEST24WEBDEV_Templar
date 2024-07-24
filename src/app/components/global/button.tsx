@@ -8,8 +8,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        info: 'border-blue-600 text-white bg-blue-500 hover:bg-blue-600  disabled:hover:border-blue-300',
+        success:
+          'border-green-600 text-white bg-green-500 hover:bg-green-600  disabled:hover:border-green-300',
+        warning:
+          'border-yellow-600 text-primary bg-yellow-500 hover:bg-yellow-600  disabled:hover:border-yellow-300',
+        danger:
+          'border-red-600 text-white bg-red-500 hover:bg-red-600  disabled:hover:border-red-300',
         inverse:
-          'border-neutral-500 text-white bg-primary hover:bg-white hover:text-black disabled:hover:border-neutral-500 disabled:hover:bg-black',
+          'border-neutral-500 text-white bg-primary hover:bg-white disabled:hover:bg-primary hover:text-black disabled:hover:text-white disabled:hover:border-neutral-500',
         default:
           'border-white bg-white text-black disabled:border-white disabled:bg-white disabled:text-black'
       }

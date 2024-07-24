@@ -1,15 +1,13 @@
 'use client';
 
 import { Button, Link } from '@/app/components/global/button';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import {
   findFilterDonation,
   updateDonation
 } from '@/utils/database/donation.query';
 import { Prisma } from '@prisma/client';
-import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 function debounce(fn: any, delay: number) {
@@ -22,8 +20,7 @@ function debounce(fn: any, delay: number) {
   };
 }
 
-export default function Page() {
-  const { data: session } = useSession();
+export default function Donation({ recipient_id }: { recipient_id: string }) {
   const [donationsData, setDonationsData] = useState<
     Prisma.DonationGetPayload<{
       include: {
@@ -36,7 +33,7 @@ export default function Page() {
 
   const handleFindAllDonations = async (where: string) => {
     const donations = await findFilterDonation({
-      recipient_id: { equals: null },
+      recipient_id,
       OR: [{ name: { contains: where } }]
     });
     setDonationsData(donations);
@@ -51,26 +48,25 @@ export default function Page() {
     debouncedHandleFindAllDonations(filter);
   }, [filter, debouncedHandleFindAllDonations]);
 
-  const handleApplyDonation = async (id: string, recipient_id: string) => {
+  const handleRemoveDonation = async (id: string, recipient_id: string) => {
     const toastId = toast.loading('Loading');
     try {
       await updateDonation(
         { id },
-        { recipient: { connect: { id: recipient_id } } }
+        { recipient: { disconnect: { id: recipient_id } } }
       );
-      toast.success('Success apllied donation', { id: toastId });
+      toast.success('Success removing donation', { id: toastId });
       window.location.reload();
     } catch (error) {
-      toast.error('Error applied donation', { id: toastId });
+      toast.error('Error removing donation', { id: toastId });
     }
   };
 
   return (
-    <main className="flex min-h-screen w-screen flex-col gap-y-8 p-4 pl-[316px]">
-      <Breadcrumbs />
+    <>
       <div className="flex items-center justify-between">
         <h2 className="text-center text-5xl font-bold text-white">
-          Available Donations
+          Manage Donations
         </h2>
         <input
           type="text"
@@ -109,14 +105,24 @@ export default function Page() {
                     <p className="text-sm">{donation.donor.description}</p>
                   </div>
                   <div className="flex gap-4">
+                    <Link
+                      href={`/recipient/mydonation/${donation.id}`}
+                      className="xl:mt-[20px] xl:inline-flex"
+                      variant={'default'}
+                    >
+                      Details Donation
+                    </Link>
                     <Button
                       onClick={() =>
-                        handleApplyDonation(donation.id, session?.user?.id!)
+                        handleRemoveDonation(
+                          donation.id,
+                          donation.recipient_id!
+                        )
                       }
                       className="xl:mt-[20px] xl:inline-flex"
                       variant={'inverse'}
                     >
-                      Apply Donation
+                      Remove Donation
                     </Button>
                   </div>
                 </div>
@@ -124,6 +130,6 @@ export default function Page() {
             </div>
           ))}
       </div>
-    </main>
+    </>
   );
 }

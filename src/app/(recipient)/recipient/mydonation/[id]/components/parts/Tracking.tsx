@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Link } from '@/app/components/global/button';
+import { H4, P } from '@/app/components/global/text';
+import { cn } from '@/utils/cn';
 import {
   deleteTracking,
   findDonationTracking
@@ -23,7 +24,7 @@ export default function TrackingData({ donation_id }: { donation_id: string }) {
   const dateFormat = (createdAt: Date) => {
     const date = new Date(createdAt);
 
-    const formatter = new Intl.DateTimeFormat('en-US', {
+    const formatter = new Intl.DateTimeFormat('id-ID', {
       weekday: 'long',
       day: 'numeric',
       month: 'long',
@@ -56,39 +57,29 @@ export default function TrackingData({ donation_id }: { donation_id: string }) {
     <main className="flex h-screen w-full flex-col gap-y-8">
       <div className="flex items-center justify-between">
         <h2 className="text-center text-5xl font-bold text-white">
-          Donation Tracking
+          Lacak Donasi
         </h2>
-        <Link variant={'default'} href={`/admin/donation/${donation_id}/new`}>
-          New Tracking
-        </Link>
       </div>
-      <div className="flex flex-col gap-y-4 pb-4">
-        {tracking &&
-          tracking.map((track, index) => (
-            <div
-              key={index}
-              className="flex w-full flex-col gap-y-2 rounded-lg border-2 border-white p-2 text-white"
-            >
-              <p className="text-lg"> {track.description}</p>
-              <p className="text-sm">{dateFormat(track.createdAt)}</p>
-              <div className="flex items-center justify-end gap-2 text-nowrap">
-                <Link
-                  href={`/admin/donation/${track.donation_id}/${track.id}`}
-                  variant={'default'}
+      <div className="flex flex-col gap-y-4">
+        <ol
+          className={cn('relative text-gray-400 ml-4 border-s border-gray-300')}
+        >
+          {tracking &&
+            tracking.map((track, index) => (
+              <li key={index} className="mb-10 ms-6">
+                <span
+                  className={cn(
+                    'absolute -start-4 flex h-8 w-8 items-center justify-center rounded-full', index === tracking.length - 1 ? "bg-green-800" : "bg-gray-800"
+                  )}
                 >
-                  Update
-                </Link>
-                <Button
-                  onClick={() => {
-                    handleDeleteTracking(track.id);
-                  }}
-                  variant={'inverse'}
-                >
-                  Delete
-                </Button>
-              </div>
-            </div>
-          ))}
+                </span>
+                <H4 className="font-medium leading-tight">
+                  {track.description}
+                </H4>
+                <P className="text-sm">{dateFormat(track.createdAt)}</P>
+              </li>
+            ))}
+        </ol>
       </div>
     </main>
   );

@@ -6,8 +6,9 @@ import { toast } from 'sonner';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { deleteDonation } from '@/utils/database/donation.query';
+import { customStyles } from '@/utils/reactDataTable';
+import { Button, Link } from '@/app/components/global/button';
 
 export default function Table({
   donations
@@ -59,19 +60,21 @@ export default function Table({
       cell: (row) => (
         <div className="flex items-center justify-between gap-2 text-nowrap">
           <Link
+            variant={'info'}
             href={'/admin/donation/' + row.id}
-            className="h-fit w-fit rounded-lg bg-blue-500 px-4 py-2 text-[#FFFBF2]"
+            className="h-fit w-fit rounded-lg px-4 py-2"
           >
             Details
           </Link>
-          <button
+          <Button
             onClick={() => {
               handleDeleteDonation(row.id);
             }}
-            className="h-fit w-fit rounded-lg bg-red-500 px-4 py-2 text-[#FFFBF2]"
+            className="h-fit w-fit rounded-lg px-4 py-2"
+            variant={'danger'}
           >
             Delete
-          </button>
+          </Button>
         </div>
       )
     }
@@ -103,7 +106,7 @@ export default function Table({
         columns={columns}
         data={donations}
         pagination
-        highlightOnHover
+        customStyles={customStyles}
       />
     </div>
   );
