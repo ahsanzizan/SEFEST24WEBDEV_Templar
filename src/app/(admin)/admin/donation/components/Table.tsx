@@ -60,7 +60,7 @@ export default function Table({
       cell: (row) => (
         <div className="flex items-center justify-between gap-2 text-nowrap">
           <Link
-            variant={'default'}
+            variant={'info'}
             href={'/admin/donation/' + row.id}
             className="h-fit w-fit rounded-lg px-4 py-2"
           >
@@ -71,7 +71,7 @@ export default function Table({
               handleDeleteDonation(row.id);
             }}
             className="h-fit w-fit rounded-lg px-4 py-2"
-            variant={'inverse'}
+            variant={'danger'}
           >
             Delete
           </Button>

@@ -1,9 +1,10 @@
 'use client';
 
-import { Button } from '@/app/components/global/button';
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
 import Image from 'next/image';
+import { signOut } from 'next-auth/react';
+
+import { Button } from '@/app/components/global/button';
 
 const menus: { href: string; title: string }[] = [
   { href: '/', title: 'Home' },
@@ -38,7 +39,7 @@ export default function Sidebar() {
       </div>
       <Button
         onClick={() => signOut({ callbackUrl: '/' })}
-        className="xl:mt-[20px] xl:inline-flex"
+        className="flex w-full justify-center xl:mt-[20px] xl:inline-flex"
         variant={'inverse'}
       >
         Logout

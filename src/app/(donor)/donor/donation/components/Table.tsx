@@ -6,17 +6,16 @@ import { toast } from 'sonner';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { deleteDonation } from '@/utils/database/donation.query';
-import { customStyles } from '@/utils/reactDataTable';
+import { Button, Link } from '@/app/components/global/button';
 
 export default function Table({
   donations
 }: {
   donations: Prisma.DonationGetPayload<{
     include: {
-      donor: { select: { email: true } };
-      recipient: { select: { email: true } };
+      donor: true;
+      recipient: true;
     };
   }>[];
 }) {
@@ -105,13 +104,40 @@ export default function Table({
   if (loading) return <p>Loading</p>;
 
   return (
-    <div>
-      <DataTable
+    <div className="flex flex-col gap-y-4">
+      {/* <DataTable
         columns={columns}
         data={donations}
         pagination
         customStyles={customStyles}
-      />
+      /> */}
+      {donations &&
+        donations.map((donation, index) => (
+          <div
+            key={index}
+            className="flex w-full justify-between gap-4 rounded-lg border border-white p-2 text-white"
+          >
+            <div>
+              <p>{donation.name}</p>
+              <p>{donation.description}</p>
+              <p>{donation.pickup_coordinate}</p>
+              <p>Recipient : {donation.recipient?.name}</p>
+            </div>
+            <div className="flex items-end justify-between gap-2 text-nowrap">
+              <Link variant={'info'} href={'/donor/donation/' + donation.id}>
+                Details
+              </Link>
+              <Button
+                variant={'danger'}
+                onClick={() => {
+                  handleDeleteDonation(donation.id);
+                }}
+              >
+                Delete
+              </Button>
+            </div>
+          </div>
+        ))}
     </div>
   );
 }

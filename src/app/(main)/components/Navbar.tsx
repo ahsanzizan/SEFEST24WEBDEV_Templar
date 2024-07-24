@@ -91,13 +91,13 @@ export default function Navbar() {
             >
               Dashboard
             </Link>
-            <Button
+            {/* <Button
               onClick={() => signOut({ callbackUrl: '/' })}
               className="xl:mt-[20px] xl:inline-flex"
               variant={'inverse'}
             >
-              Logout
-            </Button>
+              Lo
+            </Button> */}
           </div>
         ) : (
           <div className="hidden items-center gap-4 xl:flex">

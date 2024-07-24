@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { handleUpdateUser } from '@/utils/actions/user';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { Button } from '@/app/components/global/button';
 
 export default function Form({ user }: { user: User }) {
   const { data: session, update } = useSession();
@@ -38,56 +39,66 @@ export default function Form({ user }: { user: User }) {
           toast.error('Error updating user', { id: toastId });
         }
       }}
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-6"
     >
       <div className="flex flex-col gap-2">
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email" className="text-white">
+          Email
+        </label>
         <input
           type="email"
           name="email"
           id="email"
-          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+          className="focus:border-dark rounded-lg border-2 border-white bg-primary p-2 text-white focus:outline-none"
           defaultValue={user.email}
         />
       </div>
       <div className="flex flex-col gap-2">
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name" className="text-white">
+          Name
+        </label>
         <input
           type="text"
           name="name"
           id="name"
           required
-          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+          className="focus:border-dark rounded-lg border-2 border-white bg-primary p-2 text-white focus:outline-none"
           defaultValue={user && user.name!}
         />
       </div>
       <div className="flex flex-col gap-2">
-        <label htmlFor="description">Description</label>
+        <label htmlFor="description" className="text-white">
+          Description
+        </label>
         <textarea
           name="description"
           id="description"
           required
-          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+          className="focus:border-dark rounded-lg border-2 border-white bg-primary p-2 text-white focus:outline-none"
           defaultValue={user && user.description!}
         />
       </div>
       <div className="flex flex-col gap-2">
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password" className="text-white">
+          Password
+        </label>
         <input
           type="password"
           name="password"
           id="password"
-          className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+          className="focus:border-dark rounded-lg border-2 border-white bg-primary p-2 text-white focus:outline-none"
           placeholder="Update password"
         />
       </div>
       {user && user.role === 'GUEST' && (
         <div className="flex flex-col gap-2">
-          <label htmlFor="role">Role</label>
+          <label htmlFor="role" className="text-white">
+            Role
+          </label>
           <select
             name="role"
             id="role"
-            className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+            className="focus:border-dark rounded-lg border-2 border-white bg-primary p-2 text-white focus:outline-none"
             defaultValue={user.role}
           >
             <option value="DONOR">Donor</option>
@@ -98,11 +109,13 @@ export default function Form({ user }: { user: User }) {
       )}
       {user && user.role === 'RECIPIENT' && (
         <div className="flex flex-col gap-2">
-          <label htmlFor="request_donation">Request Donation</label>
+          <label htmlFor="request_donation" className="text-white">
+            Request Donation
+          </label>
           <select
             name="request_donation"
             id="request_donation"
-            className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+            className="focus:border-dark rounded-lg border-2 border-white bg-primary p-2 text-white focus:outline-none"
             defaultValue={user.request_donation ? 'true' : 'false'}
           >
             <option value="false">Not Request</option>
@@ -110,12 +123,9 @@ export default function Form({ user }: { user: User }) {
           </select>
         </div>
       )}
-      <button
-        type="submit"
-        className="mt-4 w-fit rounded-lg bg-secondary px-8 py-4 text-[#FFFBF2]"
-      >
+      <Button type="submit" variant={'default'}>
         Update
-      </button>
+      </Button>
     </form>
   );
 }

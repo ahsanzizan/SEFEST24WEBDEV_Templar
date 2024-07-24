@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/app/components/global/button';
+import { Button, Link } from '@/app/components/global/button';
 import {
   findFilterDonation,
   updateDonation
@@ -105,18 +105,13 @@ export default function Donation({ recipient_id }: { recipient_id: string }) {
                     <p className="text-sm">{donation.donor.description}</p>
                   </div>
                   <div className="flex gap-4">
-                    <Button
-                      onClick={() =>
-                        handleRemoveDonation(
-                          donation.id,
-                          donation.recipient_id!
-                        )
-                      }
+                    <Link
+                      href={`/recipient/mydonation/${donation.id}`}
                       className="xl:mt-[20px] xl:inline-flex"
                       variant={'default'}
                     >
                       Details Donation
-                    </Button>
+                    </Link>
                     <Button
                       onClick={() =>
                         handleRemoveDonation(

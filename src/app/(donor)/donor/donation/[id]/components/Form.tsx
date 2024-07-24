@@ -17,6 +17,7 @@ import {
 } from '@/utils/actions/donation';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { Button } from '@/app/components/global/button';
 
 const AsyncSelect = dynamic(() => import('react-select/async'), { ssr: false });
 
@@ -110,7 +111,7 @@ export default function Form({
   return (
     <div className="flex flex-col gap-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-center text-5xl font-bold text-[#475443]">
+        <h2 className="text-center text-5xl font-bold text-white">
           Donation Form
         </h2>
       </div>
@@ -145,29 +146,35 @@ export default function Form({
         className="flex flex-col gap-4"
       >
         <div className="flex flex-col gap-2">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name" className="text-white">
+            Name
+          </label>
           <input
             type="text"
             name="name"
             id="name"
             required
-            className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+            className="focus:border-dark rounded-lg border-2 border-white bg-primary p-2 text-white focus:outline-none"
             defaultValue={donation && donation.name}
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="description">Description</label>
+          <label htmlFor="description" className="text-white">
+            Description
+          </label>
           <input
             type="text"
             name="description"
             id="description"
             required
-            className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+            className="focus:border-dark rounded-lg border-2 border-white bg-primary p-2 text-white focus:outline-none"
             defaultValue={donation && donation.description}
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="recipient_id">Recipient Id</label>
+          <label htmlFor="recipient_id" className="text-white">
+            Recipient Id
+          </label>
           <AsyncSelect
             defaultValue={
               donation && {
@@ -180,9 +187,17 @@ export default function Form({
               control: (baseStyles, state) => ({
                 ...baseStyles,
                 borderRadius: 8,
-                border: '2px solid #475443',
-                padding: 4,
-                borderColor: state.isFocused ? '#001E16' : '#475443'
+                border: '2px solid #ffffff',
+                backgroundColor: '#161616',
+                padding: 4
+              }),
+              singleValue: (baseStyles) => ({
+                ...baseStyles,
+                color: '#ffffff'
+              }),
+              input: (baseStyles) => ({
+                ...baseStyles,
+                color: '#ffffff'
               })
             }}
             placeholder="Select recipient"
@@ -195,21 +210,25 @@ export default function Form({
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="pickup_coordinate">Pickup Coordinate Id</label>
+          <label htmlFor="pickup_coordinate" className="text-white">
+            Pickup Coordinate Id
+          </label>
           <input
             type="text"
             name="pickup_coordinate"
             id="pickup_coordinate"
-            className="rounded-lg border-2 border-secondary p-2 focus:border-dark focus:outline-none"
+            className="focus:border-dark rounded-lg border-2 border-white bg-primary p-2 text-white focus:outline-none"
             defaultValue={donation && donation.pickup_coordinate!}
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="pickup_status">Pickup Status</label>
+          <label htmlFor="pickup_status" className="text-white">
+            Pickup Status
+          </label>
           <select
             name="pickup_status"
             id="pickup_status"
-            className="rounded-lg border-2 border-secondary p-3 focus:border-dark focus:outline-none"
+            className="focus:border-dark rounded-lg border-2 border-white bg-primary p-2 text-white focus:outline-none"
             aria-placeholder="Select status"
             defaultValue={donation && donation.pickup_status!}
           >
@@ -218,12 +237,9 @@ export default function Form({
             <option value="RECIEVED">Recieved</option>
           </select>
         </div>
-        <button
-          type="submit"
-          className="mt-4 w-fit rounded-lg bg-secondary px-8 py-4 text-[#FFFBF2]"
-        >
+        <Button type="submit" variant={'success'}>
           {donation ? 'Update' : 'Create'}
-        </button>
+        </Button>
       </form>
     </div>
   );
