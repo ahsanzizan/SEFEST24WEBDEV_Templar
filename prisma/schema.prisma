@@ -10,10 +10,10 @@ datasource db {
 model User {
   id               String         @id @unique @default(uuid())
   email            String         @unique
-  password         String?
+  password         String?        @db.Text
   role             Role           @default(GUEST)
   request_donation Boolean        @default(false)
-  name             String?        @unique
+  name             String
   description      String?
   donor            Donation[]     @relation(name: "donor")
   recipient        Donation[]     @relation(name: "recipient")
